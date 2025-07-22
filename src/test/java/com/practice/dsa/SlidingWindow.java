@@ -1,9 +1,6 @@
 package com.practice.dsa;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SlidingWindow {
 
@@ -306,6 +303,82 @@ public class SlidingWindow {
 
     }
 
+    public static String longestPalindrome5(String s) {
+        int n = s.length();
+        if (n == 0) return "";
+
+        String result = s.substring(0, 1); // Start with 1st char as the longest
+
+        for (int center = 0; center < n; center++) {
+            // Check for odd-length palindromes (single center)
+            result = expandAndUpdate(s, center, center, result);
+            // Check for even-length palindromes (two centers)
+            result = expandAndUpdate(s, center, center + 1, result);
+        }
+
+        return result;
+    }
+
+    // Helper function to expand around center and update result
+    private static String expandAndUpdate(String s, int left, int right, String currentBest) {
+        int n = s.length();
+
+        // Expand as long as characters match and within bounds
+        while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+
+        // Substring from left+1 to right-1 is the palindrome
+        String newPalindrome = s.substring(left + 1, right);
+
+        // Update if new one is longer
+        if (newPalindrome.length() > currentBest.length()) {
+            return newPalindrome;
+        } else {
+            return currentBest;
+        }
+    }
+
+
+    public static boolean checkInclusion(String s1, String s2) {
+
+        if (s1.length() > s2.length()) return false;
+        HashMap<Character,Integer> hm = new HashMap<>();
+        for(char c: s1.toCharArray()) hm.put(c, hm.getOrDefault(c, 0) + 1);
+
+        for (int i = 0; i < s2.length() - s1.length()+1; i++) {
+
+            if(hm.containsKey(s2.charAt(i))){
+                boolean flag = checkAnagram(s1, s2.substring(i, i + s1.length()));
+                if (flag) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkAnagram(String a, String b) {
+
+        int [] alpha= new int[26];
+        for (char c : b.toCharArray()) {
+            alpha[c-'a']++;
+        }
+
+        for (char c : a.toCharArray()) {
+            alpha[c-'a']--;
+        }
+
+        for (int i=0;i<26;i++) {
+            if(alpha[i]!=0) return false;
+        }
+        return true;
+
+
+    }
+
+
 
     public static void main(String[] args) {
 
@@ -313,7 +386,7 @@ public class SlidingWindow {
         // int ar[] = {-2,-12,-1,-10};
 
 
-        System.out.println(longestPalindrome("eabcb"));
+        System.out.println(longestPalindrome5("eabcb"));
 
 
     }
