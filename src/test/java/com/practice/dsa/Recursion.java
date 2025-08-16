@@ -1,6 +1,7 @@
 package com.practice.dsa;
 
 
+import java.text.CollationElementIterator;
 import java.util.*;
 
 public class Recursion {
@@ -31,7 +32,7 @@ public class Recursion {
 
     }
 
-    public static int[] reverseArray(int i, int j, int arr[]) {
+    public static int[] reverseArray(int i, int j, int[] arr) {
 
         if (j < i) {
             return arr;
@@ -70,6 +71,8 @@ public class Recursion {
         al.add(ar[i]);
         printSubsequences(i + 1, al, ar, n);
         al.remove(al.size() - 1);
+        System.out.println("Index ------" + (i + 1));
+        System.out.println("DS --" + al);
         printSubsequences(i + 1, al, ar, n);
 
 
@@ -126,13 +129,153 @@ public class Recursion {
         return left + right;
     }
 
+    public static char kthCharacter(int k, List<Character> al) {
+
+        if (al.size() >= k) {
+            return al.get(k - 1);
+        }
+
+        StringBuilder s = new StringBuilder();
+        for (char p : al) {
+            s.append((char) (p + 1));
+        }
+        for (int i = 0; i < s.length(); i++) {
+            al.add(s.charAt(i));
+        }
+        return kthCharacter(k, al);
+
+    }
+
+    public static boolean isPowerOfTwo(int n) {
+
+        int i = 0;
+        return Recursion.check(0, n);
+
+    }
+
+    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+
+        List<List<Integer>> ans = new ArrayList<>();
+        findCombination(0, candidates, target, ans, new ArrayList<Integer>());
+        return ans;
+
+
+    }
+
+    private static void findCombination(int i, int[] arr, int target, List<List<Integer>> ans, List<Integer> ds) {
+
+        if (target == 0) {
+            ans.add(new ArrayList<>(ds));
+            return;
+        }
+        if (i == arr.length) return;
+
+        if (arr[i] <= target) {
+            ds.add(arr[i]);
+            findCombination(i, arr, target - arr[i], ans, ds);
+            ds.remove(ds.size() - 1);
+        }
+        findCombination(i + 1, arr, target, ans, ds);
+
+    }
+
+    public static List<List<Integer>> combinationSum2(int[] candidates, int target) {
+
+        List<List<Integer>> ans = new ArrayList<>();
+        findCombination2(0, candidates, 8, ans, new ArrayList<Integer>());
+        return ans;
+
+    }
+
+    private static void findCombination2(int i, int[] arr, int target, List<List<Integer>> ans, List<Integer> ds) {
+
+        if (target == 0) {
+            ans.add(new ArrayList<>(ds));
+            return;
+        }
+        if (i == arr.length) return;
+
+        if (arr[i] <= target) {
+            ds.add(arr[i]);
+            findCombination2(i + 1, arr, target - arr[i], ans, ds);
+            ds.remove(ds.size() - 1);
+        }
+        findCombination2(i + 1, arr, target, ans, ds);
+
+    }
+
+    public static List<Integer> subsetsSum(int[] nums) {
+        List<Integer> subSet = new ArrayList<>();
+
+        findSubsets(0, 0, nums, subSet);
+        Collections.sort(subSet);
+        return subSet;
+
+    }
+
+    public static void findSubsets(int i, int sum, int[] arr, List<Integer> subSets) {
+
+        if (i == arr.length) {
+            subSets.add(sum);
+            return;
+
+        }
+
+        findSubsets(i + 1, sum + arr[i], arr, subSets);
+
+
+        findSubsets(i + 1, sum, arr, subSets);
+
+
+    }
+
+    public static int frogJump(int i,int []arr,int cost){
+
+        if (i == arr.length - 1) {
+            return cost;
+        }
+
+        int left = Integer.MAX_VALUE;
+        int right = Integer.MAX_VALUE;
+
+
+        if (i + 1 < arr.length) {
+            left = frogJump(i + 1, arr, cost + Math.abs(arr[i + 1] - arr[i]));
+        }
+
+
+        if (i + 2 < arr.length) {
+            right = frogJump(i + 2, arr, cost + Math.abs(arr[i + 2] - arr[i]));
+        }
+
+        return Math.min(left, right);
+
+    }
+
+
+    static boolean check(int i, int n) {
+
+        int pow = (int) Math.pow(2, i);
+        if (pow == n) return true;
+        else if (pow > n || n % 2 != 0) return false;
+        return check(i + 1, n);
+
+    }
+
+
+
 
     public static void main(String[] args) {
 
 
-        int[] arr = {3, 2, 1};
-        int k = 3;
+        int[] ar = {1, 2, 2};
 
-        System.out.println(countSubsequencesWithSumK(0, new ArrayList<>(), arr, arr.length, k));
+        // System.out.println(subsets(ar));
+        // ArrayList<Integer> al = new ArrayList<>();
+        //System.out.println(printSubsequences(0,al,ar,3));
+        // printSubsequences(0,al,ar,3);
+        System.out.println(subsetsSum(ar));
+
+
     }
 }
