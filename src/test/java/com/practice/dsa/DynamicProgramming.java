@@ -118,7 +118,6 @@ public class DynamicProgramming {
         return ans;
     }
 
-
     public int maxProfit(int[] prices) {
 
         int min = Integer.MAX_VALUE;
@@ -182,7 +181,6 @@ public class DynamicProgramming {
 
     }
 
-
     public static int frogJumpDPTabulation(int[] arr){
 
         int len= arr.length;
@@ -199,6 +197,97 @@ public class DynamicProgramming {
         return dp[len-1];
     }
 
+
+    public static int frogJumpKStepsTabulation(int[] arr, int k) {
+
+        int len = arr.length;
+        int[] dp = new int[len];
+
+        dp[0] = 0;
+
+        for (int i = 1; i < len; i++) {
+
+            int a1 = 0, a2 = 0;
+
+            a1 = dp[i - 1] + Math.abs(arr[i] - arr[i - 1]);
+            if (i - k < 0) {
+                a2 = dp[0] + Math.abs(arr[i] - arr[0]);
+            } else {
+                a2 = dp[i - k] + Math.abs(arr[i] - arr[i - k]);
+            }
+
+            dp[i] = Math.min(a2, a1);
+
+        }
+        return dp[len - 1];
+
+    }
+
+    public static int nonAdjacent(int[] nums) {
+        int max = Integer.MIN_VALUE;
+
+        int len = nums.length;
+
+        for (int i = 0; i < len; i++) {
+
+            for (int j = (i == 0) ? 2 : 0; j < len; j++) {
+
+                if (i == len - 1) {
+                    len = len - 1;
+                    max = Math.max(max, nums[i] * nums[j]);
+                } else if (j == i - 1 || j == i + 1 || j == i) continue;
+                else {
+                    max = Math.max(max, nums[i] * nums[j]);
+                }
+
+            }
+
+
+        }
+
+
+        return max;
+    }
+
+    public static int nonAdjacentTabulation(int[] nums) {
+        int max = Integer.MIN_VALUE;
+
+        int len = nums.length;
+        int[] dp = new int[len];
+
+        dp[0] = nums[0];
+        for (int i = 1; i < len; i++) {
+
+            if (i - 2 > 0) max = Math.max(dp[i - 2] + nums[i], nums[i]);
+
+            else max = Math.max(dp[i - 1], nums[i]);
+
+            dp[i] = Math.max(dp[i - 1], nums[i]);
+
+        }
+
+
+        return max;
+    }
+
+    public int buyStocks1(int[] prices) {
+
+        int len= prices.length;
+        int [] dp= new int[len];
+        dp[0]=prices[0];
+        int minPrice=prices[0];
+        int profit=0;
+
+        for(int i=1;i<len;i++){
+            minPrice=Math.min(minPrice,dp[i-1]);
+            profit= Math.max(profit,prices[i]-minPrice);
+            dp[i]=Math.min(prices[i],dp[i-1]);
+
+        }
+
+        return Math.max(profit, 0);
+
+    }
 
     public static void main(String[] args) {
 

@@ -229,28 +229,6 @@ public class Recursion {
 
     }
 
-    public static int frogJump(int i,int []arr,int cost){
-
-        if (i == arr.length - 1) {
-            return cost;
-        }
-
-        int left = Integer.MAX_VALUE;
-        int right = Integer.MAX_VALUE;
-
-
-        if (i + 1 < arr.length) {
-            left = frogJump(i + 1, arr, cost + Math.abs(arr[i + 1] - arr[i]));
-        }
-
-
-        if (i + 2 < arr.length) {
-            right = frogJump(i + 2, arr, cost + Math.abs(arr[i + 2] - arr[i]));
-        }
-
-        return Math.min(left, right);
-
-    }
 
 
     static boolean check(int i, int n) {
@@ -263,18 +241,19 @@ public class Recursion {
     }
 
 
-
-
     public static void main(String[] args) {
 
 
-        int[] ar = {1, 2, 2};
+        int[] ar = {12, 1, 4, 9, 11};
 
         // System.out.println(subsets(ar));
         // ArrayList<Integer> al = new ArrayList<>();
         //System.out.println(printSubsequences(0,al,ar,3));
         // printSubsequences(0,al,ar,3);
-        System.out.println(subsetsSum(ar));
+        //System.out.println(subsetsSum(ar));
+
+        // System.out.println(frogJumpKStepsTabulation(ar, 4));
+        System.out.println(nonAdjacentTabulation(ar));
 
 
     }
