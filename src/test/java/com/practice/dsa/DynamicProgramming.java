@@ -181,20 +181,20 @@ public class DynamicProgramming {
 
     }
 
-    public static int frogJumpDPTabulation(int[] arr){
+    public static int frogJumpDPTabulation(int[] arr) {
 
-        int len= arr.length;
-        int [] dp=new int[len];
-        dp[0]=0;
-        dp[1]=20;
+        int len = arr.length;
+        int[] dp = new int[len];
+        dp[0] = 0;
+        dp[1] = 20;
 
-        for(int i=2;i<len;i++){
+        for (int i = 2; i < len; i++) {
 
-            dp[i]= Math.min(dp[i-1]+Math.abs(arr[i] - arr[i - 1]),dp[i-2]+Math.abs(arr[i] - arr[i - 2]));
+            dp[i] = Math.min(dp[i - 1] + Math.abs(arr[i] - arr[i - 1]), dp[i - 2] + Math.abs(arr[i] - arr[i - 2]));
 
         }
 
-        return dp[len-1];
+        return dp[len - 1];
     }
 
 
@@ -272,16 +272,16 @@ public class DynamicProgramming {
 
     public int buyStocks1(int[] prices) {
 
-        int len= prices.length;
-        int [] dp= new int[len];
-        dp[0]=prices[0];
-        int minPrice=prices[0];
-        int profit=0;
+        int len = prices.length;
+        int[] dp = new int[len];
+        dp[0] = prices[0];
+        int minPrice = prices[0];
+        int profit = 0;
 
-        for(int i=1;i<len;i++){
-            minPrice=Math.min(minPrice,dp[i-1]);
-            profit= Math.max(profit,prices[i]-minPrice);
-            dp[i]=Math.min(prices[i],dp[i-1]);
+        for (int i = 1; i < len; i++) {
+            minPrice = Math.min(minPrice, dp[i - 1]);
+            profit = Math.max(profit, prices[i] - minPrice);
+            dp[i] = Math.min(prices[i], dp[i - 1]);
 
         }
 
@@ -289,20 +289,71 @@ public class DynamicProgramming {
 
     }
 
+    public static int houseRob(int[] nums) {
+
+        int len = nums.length;
+
+        if (len == 1) return nums[0];
+        if (len == 2) return Math.max(nums[0], nums[1]);
+
+        int[] dp = new int[len];
+        dp[0] = nums[0];
+        dp[1] = Math.max(dp[0], nums[1]);
+
+        for (int i = 2; i < len; i++) {
+            dp[i] = Math.max(nums[i] + dp[i - 2], dp[i - 1]);
+        }
+        return Math.max(dp[len - 1], dp[len - 2]);
+
+    }
+
+
+    public static int houseRob2(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        if (n == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+
+        int money1 = funRob(nums, 0, n - 2);
+        int money2 = funRob(nums, 1, n - 1);
+
+        return Math.max(money1, money2);
+    }
+
+
+        private static int funRob(int[] nums, int s, int e) {
+            int prevRob1 = 0;
+            int prevRob2 = 0;
+
+            for (int i = s; i <= e; i++) {
+                int curr = Math.max(prevRob1, prevRob2 + nums[i]);
+                prevRob2 = prevRob1;
+                prevRob1 = curr;
+            }
+            return prevRob1;
+        }
+
+
+
     public static void main(String[] args) {
 
 
-        int nums[] = {30, 10, 60, 10, 60, 50};
+      //  int nums[] = {1,3,1,3,100};
+
+        int nums[] = {2,1,1,2};
 
         // System.out.println(minCostClimbingStairs(nums));
 
 
         // System.out.println(frogJump(0,nums,0));
-        int[] dp = new int[nums.length + 1];
-        Arrays.fill(dp, -1);
+       // int[] dp = new int[nums.length + 1];
+       // Arrays.fill(dp, -1);
        // System.out.println(frogJumpDPMemoization(0, nums, dp));
         // for(int i:dp) System.out.println(i);
-        System.out.println(frogJumpDPTabulation(nums));
+        System.out.println(houseRob2(nums));
 
     }
 }

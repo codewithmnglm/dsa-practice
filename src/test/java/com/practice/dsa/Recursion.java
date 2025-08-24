@@ -253,7 +253,7 @@ public class Recursion {
         //System.out.println(subsetsSum(ar));
 
         // System.out.println(frogJumpKStepsTabulation(ar, 4));
-        System.out.println(nonAdjacentTabulation(ar));
+        //System.out.println(nonAdjacentTabulation(ar));
 
 
     }
