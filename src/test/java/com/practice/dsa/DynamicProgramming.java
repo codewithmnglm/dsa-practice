@@ -559,26 +559,131 @@ public class DynamicProgramming {
 
     }
 
+    public static int minimumTotal(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int[] dp = new int[m];
+        if (m == 1) return triangle.get(0).get(0);
+        dp[0] = triangle.get(0).get(0);
+        for (int i = 1; i < m; i++) {
+
+            int min = Integer.MAX_VALUE;
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                min = Math.min(triangle.get(i).get(j), min);
+
+            }
+            dp[i] = min + dp[i - 1];
+        }
+
+        return dp[m - 1];
+    }
+
+    public static int minimumTota2l(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int[] dp = new int[m];
+        if (m == 1) return triangle.get(0).get(0);
+        if(m==2) return triangle.get(0).get(0) + Math.min(triangle.get(1).get(1),triangle.get(1).get(0));
+        int act=0;
+        dp[0] = triangle.get(0).get(0);
+        if(triangle.get(1).get(0)>triangle.get(1).get(1)){
+            act =act+1;
+            dp[1] = dp[0]+triangle.get(1).get(1);
+        }
+        else {
+            //act =act;
+            dp[1] = dp[0]+triangle.get(1).get(0);
+        }
+        for (int i = 2; i < m; i++) {
+
+            if(triangle.get(i).get(act)>triangle.get(i).get(act+1)){
+                act =act+1;
+                dp[i]=dp[i-1]+ triangle.get(i).get(act+1);
+            }
+
+            else{
+                act=act;
+                dp[i]=dp[i-1]+ triangle.get(i).get(act);
+            }
+
+        }
+
+        return dp[m - 1];
+    }
+
+    public static int minimumTotalTopDown2(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int[][] dp = new int[m][m];
+        dp[0][0] = triangle.get(0).get(0);
+
+        for(int i=1;i<m;i++){
+
+            int len = triangle.get(i).size();
+            for(int j=0;j<len;j++){
+
+                if(j==0){
+                    dp[i][j]= triangle.get(i).get(j)+ dp[i-1][j];
+                }
+                else if(j==len-1){
+                    dp[i][j]=triangle.get(i).get(j)+ dp[i-1][j-1];
+                }
+                else dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]) + triangle.get(i).get(j);
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int j = 0; j < m; j++) {
+            ans = Math.min(ans, dp[m-1][j]);
+        }
+
+        return ans;
+    }
+
+    public static int minimumTotalTopDown(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int[][] dp = new int[m][m];
+
+        // base case (top element)
+        dp[0][0] = triangle.get(0).get(0);
+
+        // build dp row by row
+        for (int i = 1; i < m; i++) {
+            int rowSize = triangle.get(i).size();
+            for (int j = 0; j < rowSize; j++) {
+                if (j == 0) {
+                    // first element in row -> can only come from directly above
+                    dp[i][j] = dp[i-1][j] + triangle.get(i).get(j);
+                } else if (j == rowSize - 1) {
+                    // last element in row -> can only come from above-left
+                    dp[i][j] = dp[i-1][j-1] + triangle.get(i).get(j);
+                } else {
+                    // middle elements -> min of above and above-left
+                    dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]) + triangle.get(i).get(j);
+                }
+            }
+        }
+
+        // answer = min in last row
+        int ans = Integer.MAX_VALUE;
+        for (int j = 0; j < m; j++) {
+            ans = Math.min(ans, dp[m-1][j]);
+        }
+        return ans;
+    }
+
+
+
+
     public static void main(String[] args) {
 
 
         int nums[] = {2, 1};
-        // System.out.println(isSubsetSum1D(nums, 2));
+        List<List<Integer>> triangle = new ArrayList<>();
 
-        //  System.out.println(isSubsetSum2(nums,9));
+        triangle.add(Arrays.asList(-1));
+        //triangle.add(Arrays.asList(3, 4));
+        triangle.add(Arrays.asList(2, 3));
+        triangle.add(Arrays.asList(1,-1,-3));
 
-        int[][] arr = {{0, 1}, {0, 0}};
 
-        // System.out.println(uniquePathsWithObstacles(arr));
-
-        int[][] dp = new int[2][2];
-
-        for (int i = 0; i < dp.length; i++) {
-
-            for (int j = 0; j < dp[0].length; j++) {
-                System.out.println(dp[i][j] + " ,");
-            }
-        }
+        System.out.println(minimumTotalTopDown(triangle));
 
 
     }
