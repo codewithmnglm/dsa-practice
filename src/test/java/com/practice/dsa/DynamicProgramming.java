@@ -197,7 +197,6 @@ public class DynamicProgramming {
         return dp[len - 1];
     }
 
-
     public static int frogJumpKStepsTabulation(int[] arr, int k) {
 
         int len = arr.length;
@@ -307,7 +306,6 @@ public class DynamicProgramming {
 
     }
 
-
     public static int houseRob2(int[] nums) {
         int n = nums.length;
         if (n == 1) {
@@ -323,37 +321,265 @@ public class DynamicProgramming {
         return Math.max(money1, money2);
     }
 
+    private static int funRob(int[] nums, int s, int e) {
+        int prevRob1 = 0;
+        int prevRob2 = 0;
 
-        private static int funRob(int[] nums, int s, int e) {
-            int prevRob1 = 0;
-            int prevRob2 = 0;
+        for (int i = s; i <= e; i++) {
+            int curr = Math.max(prevRob1, prevRob2 + nums[i]);
+            prevRob2 = prevRob1;
+            prevRob1 = curr;
+        }
+        return prevRob1;
+    }
 
-            for (int i = s; i <= e; i++) {
-                int curr = Math.max(prevRob1, prevRob2 + nums[i]);
-                prevRob2 = prevRob1;
-                prevRob1 = curr;
-            }
-            return prevRob1;
+    public static void ninjaTraining(int[][] matrix) {
+
+        int sum = 10;
+        findMaxRoute(0, -1, matrix, sum);
+
+    }
+
+    public static void findMaxRoute(int day, int lastActivity, int[][] matrix, int sum) {
+        // Base case: all days covered
+        if (day >= matrix.length) {
+            System.out.println("Total Merit Points = " + sum);
+            return;
         }
 
+        // Try all activities for current day
+        for (int act = 0; act < matrix[day].length; act++) {
+            if (act != lastActivity) { // ensure no consecutive repetition
+                findMaxRoute(day + 1, act, matrix, sum + matrix[day][act]);
+            }
+        }
+    }
 
+    public static boolean isSubsetSum(int[] arr, int target) {
+
+
+        return subSetK(0, arr, target);
+
+    }
+
+    public static boolean subSetK(int i, int[] arr, int target) {
+
+        if (target == 0) return true;
+        if (i == arr.length) return false;
+        boolean take = subSetK(i + 1, arr, target - arr[i]);
+        boolean notTake = false;
+        if (target >= arr[i]) {
+            notTake = subSetK(i + 1, arr, target);
+        }
+
+        return take || notTake;
+
+
+    }
+
+    public static boolean canPartition(int[] nums) {
+        ArrayList<Integer> al = new ArrayList<>();
+        ArrayList<Integer> al2 = new ArrayList<>();
+        printSubsequences(al2, 0, al, nums);
+        HashSet<Integer> hs = new HashSet<>(al2);
+        return al2.size() != hs.size();
+    }
+
+    public static void printSubsequences(List<Integer> al2, int i, List<Integer> al, int[] ar) {
+        var sum = 0;
+        if (i >= ar.length) {
+            for (int p : al) sum = sum + p;
+            al2.add(sum);
+            return;
+        }
+        al.add(ar[i]);
+        printSubsequences(al2, i + 1, al, ar);
+        al.remove(al.size() - 1);
+        printSubsequences(al2, i + 1, al, ar);
+
+
+    }
+
+    public static boolean isSubsetSum2(int[] nums, int k) {
+        int n = nums.length;
+
+        boolean[][] dp = new boolean[n + 1][k + 1];
+
+        // Base Case: sum 0 is always possible
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;
+        }
+
+        // Fill the table
+        for (int i = 1; i <= n; i++) {
+            for (int target = 1; target <= k; target++) {
+
+                // Not taking current number
+                boolean notTake = dp[i - 1][target];
+
+                // Taking current number (if possible)
+                boolean take = false;
+                if (nums[i - 1] <= target) {
+                    take = dp[i - 1][target - nums[i - 1]];
+                }
+
+                dp[i][target] = take || notTake;
+            }
+        }
+
+        return dp[n][k]; // Final answer
+    }
+
+    public static boolean isSubsetSum1D(int[] nums, int k) {
+        boolean[] dp = new boolean[k + 1];
+
+        // Base case: sum 0 is always possible
+        dp[0] = true;
+
+        // Process each number
+        for (int num : nums) {
+            // Traverse backwards to avoid overwriting values we still need
+            for (int target = k; target >= num; target--) {
+                if (dp[target - num]) {
+                    dp[target] = true;
+                }
+            }
+        }
+
+        return dp[k];
+    }
+
+    public static int uniquePaths(int m, int n) {
+
+        // int[][] dp = new int[m][n];
+        // dp[0][0]=0;
+        // Arrays.fill(dp, -1);
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = -1; // initialize dp with -1 (unvisited)
+            }
+        }
+        //return findUniquePathMemoization(0, 0, 3,7,dp);
+        return findUniquePathTabulation(3, 7, dp);
+    }
+
+    public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
+
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = -1; // initialize dp with -1 (unvisited)
+            }
+        }
+
+        return findUniquePathTabulation2(2, 2, dp, obstacleGrid);
+
+    }
+
+    public static int findUniquePathMemoization(int i, int j, int m, int n, int[][] dp) {
+
+        if (i == m - 1 && j == n - 1) return 1;
+        // out of bounds
+        if (i >= m || j >= n) return 0;
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        int right = 0, down = 0;
+        if (j < n - 1) right = findUniquePathMemoization(i, j + 1, m, n, dp);
+        if (i < m - 1) down = findUniquePathMemoization(i + 1, j, m, n, dp);
+
+        return dp[i][j] = right + down;
+
+    }
+
+    public static int findUniquePathTabulation(int m, int n, int[][] dp) {
+
+        for (int i = 0; i < m; i++) dp[i][0] = 1;
+        for (int j = 0; j < n; j++) dp[0][j] = 1;
+
+        for (int i = 1; i < m; i++) {
+
+            for (int j = 1; j < n; j++) {
+
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    public static int findUniquePathTabulation2(int m, int n, int[][] dp, int[][] arr) {
+
+        for (int i = 0; i < m; i++) {
+            if (arr[i][0] == 0) dp[i][0] = 1;
+            else break;
+        }
+        for (int j = 0; j < n; j++) {
+            if (arr[0][j] == 0) dp[0][j] = 1;
+            else break;
+        }
+        for (int i = 1; i < m; i++) {
+
+            for (int j = 1; j < n; j++) {
+                if (arr[i][j] == 1) dp[i][j] = 0;
+                else {
+                    if (dp[i][j - 1] == -1) dp[i][j] = dp[i - 1][j];
+                    else if (dp[i - 1][j] == -1) dp[i][j] = dp[i][j - 1];
+                    else dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    public int minPathSum(int[][] grid) {
+
+        int m = grid.length;
+        int n = grid[0].length;
+
+        int[][] dp = new int[m][n];
+
+        dp[0][0] = grid[0][0];
+
+        for (int i = 1; i < m; i++) dp[i][0] = grid[i][0] + dp[i - 1][0];
+        for (int j = 1; j < n; j++) dp[0][j] = grid[0][j] + dp[0][j - 1];
+
+        for (int i = 1; i < m; i++) {
+
+            for (int j = 1; j < n; j++) {
+
+                dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+
+        return dp[m - 1][n - 1];
+
+    }
 
     public static void main(String[] args) {
 
 
-      //  int nums[] = {1,3,1,3,100};
+        int nums[] = {2, 1};
+        // System.out.println(isSubsetSum1D(nums, 2));
 
-        int nums[] = {2,1,1,2};
+        //  System.out.println(isSubsetSum2(nums,9));
 
-        // System.out.println(minCostClimbingStairs(nums));
+        int[][] arr = {{0, 1}, {0, 0}};
 
+        // System.out.println(uniquePathsWithObstacles(arr));
 
-        // System.out.println(frogJump(0,nums,0));
-       // int[] dp = new int[nums.length + 1];
-       // Arrays.fill(dp, -1);
-       // System.out.println(frogJumpDPMemoization(0, nums, dp));
-        // for(int i:dp) System.out.println(i);
-        System.out.println(houseRob2(nums));
+        int[][] dp = new int[2][2];
+
+        for (int i = 0; i < dp.length; i++) {
+
+            for (int j = 0; j < dp[0].length; j++) {
+                System.out.println(dp[i][j] + " ,");
+            }
+        }
+
 
     }
 }

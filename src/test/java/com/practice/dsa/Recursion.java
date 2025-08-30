@@ -1,12 +1,20 @@
 package com.practice.dsa;
 
 
-import java.text.CollationElementIterator;
 import java.util.*;
 
 public class Recursion {
 
     static int count = 0;
+
+    static boolean check(int i, int n) {
+
+        int pow = (int) Math.pow(2, i);
+        if (pow == n) return true;
+        else if (pow > n || n % 2 != 0) return false;
+        return check(i + 1, n);
+
+    }
 
     public static void factorial(int n, int i) {
 
@@ -229,31 +237,54 @@ public class Recursion {
 
     }
 
+    public static int isSubsetSum(int[] arr, int target) {
+        return subSetK(0, arr, target);
+    }
+
+    public static int subSetK(int i, int[] arr, int target) {
+
+        if (target == 0) return 1;
+        if (i == arr.length) return 0;
+        int left = subSetK(i + 1, arr, target - arr[i]);
+        int right = subSetK(i + 1, arr, target);
+        return left + right;
 
 
-    static boolean check(int i, int n) {
+    }
 
-        int pow = (int) Math.pow(2, i);
-        if (pow == n) return true;
-        else if (pow > n || n % 2 != 0) return false;
-        return check(i + 1, n);
 
+    public static int ninjaTraining(int n, int points[][]) {
+
+        int[][] dp = new int[n][4];
+        for (int i = 0; i < n; i++) Arrays.fill(dp[i], -1);
+
+        // start at day 0 with last = 3 (no previous)
+        return solve(0, 3, points, dp);
+    }
+
+    private static int solve(int day, int last, int[][] points, int[][] dp) {
+        if (day == points.length) return 0;           // Base case
+
+        if (dp[day][last] != -1) return dp[day][last]; // Memo hit
+
+        int best = 0;
+        for (int act = 0; act < 3; act++) {
+            if (act != last) { // can't repeat yesterday's activity
+                int take = points[day][act] + solve(day + 1, act, points, dp);
+                if (take > best) best = take;
+            }
+        }
+        return dp[day][last] = best; // store and return
     }
 
 
     public static void main(String[] args) {
 
 
-        int[] ar = {12, 1, 4, 9, 11};
+        int[][] ar = {{1, 2, 5}, {3, 1, 1}, {3, 3, 3}};
 
-        // System.out.println(subsets(ar));
-        // ArrayList<Integer> al = new ArrayList<>();
-        //System.out.println(printSubsequences(0,al,ar,3));
-        // printSubsequences(0,al,ar,3);
-        //System.out.println(subsetsSum(ar));
 
-        // System.out.println(frogJumpKStepsTabulation(ar, 4));
-        //System.out.println(nonAdjacentTabulation(ar));
+        System.out.println(ninjaTraining(3, ar));
 
 
     }
