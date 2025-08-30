@@ -277,14 +277,44 @@ public class Recursion {
         return dp[day][last] = best; // store and return
     }
 
+    public static int minFallingPathSum(int[][] matrix) {
+
+        int minPath = Integer.MAX_VALUE;
+
+        for (int j = 0; j < matrix.length; j++) {
+
+            minPath = Math.min(calculateMinFallingPathSum(0, j, matrix), minPath);
+        }
+
+        return minPath;
+
+    }
+
+    static int calculateMinFallingPathSum(int i, int j, int[][] matrix) {
+
+        int n = matrix.length;
+
+        if(j<0 || j>=n) return Integer.MAX_VALUE;
+
+        if(i==n-1) return matrix[i][j];
+
+        int right= calculateMinFallingPathSum(i+1,j+1,matrix);
+        int left= calculateMinFallingPathSum(i+1,j-1,matrix);
+        int down= calculateMinFallingPathSum(i+1,j,matrix);
+
+
+
+        return matrix[i][j] + Math.min(down, Math.min(left, right));
+    }
+
 
     public static void main(String[] args) {
 
 
-        int[][] ar = {{1, 2, 5}, {3, 1, 1}, {3, 3, 3}};
+        int[][] ar = {{2, 1, 3}, {6, 5, 4}, {7, 8, 9}};
 
 
-        System.out.println(ninjaTraining(3, ar));
+        System.out.println(minFallingPathSum(ar));
 
 
     }

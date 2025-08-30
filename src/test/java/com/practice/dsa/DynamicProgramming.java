@@ -581,27 +581,24 @@ public class DynamicProgramming {
         int m = triangle.size();
         int[] dp = new int[m];
         if (m == 1) return triangle.get(0).get(0);
-        if(m==2) return triangle.get(0).get(0) + Math.min(triangle.get(1).get(1),triangle.get(1).get(0));
-        int act=0;
+        if (m == 2) return triangle.get(0).get(0) + Math.min(triangle.get(1).get(1), triangle.get(1).get(0));
+        int act = 0;
         dp[0] = triangle.get(0).get(0);
-        if(triangle.get(1).get(0)>triangle.get(1).get(1)){
-            act =act+1;
-            dp[1] = dp[0]+triangle.get(1).get(1);
-        }
-        else {
+        if (triangle.get(1).get(0) > triangle.get(1).get(1)) {
+            act = act + 1;
+            dp[1] = dp[0] + triangle.get(1).get(1);
+        } else {
             //act =act;
-            dp[1] = dp[0]+triangle.get(1).get(0);
+            dp[1] = dp[0] + triangle.get(1).get(0);
         }
         for (int i = 2; i < m; i++) {
 
-            if(triangle.get(i).get(act)>triangle.get(i).get(act+1)){
-                act =act+1;
-                dp[i]=dp[i-1]+ triangle.get(i).get(act+1);
-            }
-
-            else{
-                act=act;
-                dp[i]=dp[i-1]+ triangle.get(i).get(act);
+            if (triangle.get(i).get(act) > triangle.get(i).get(act + 1)) {
+                act = act + 1;
+                dp[i] = dp[i - 1] + triangle.get(i).get(act + 1);
+            } else {
+                act = act;
+                dp[i] = dp[i - 1] + triangle.get(i).get(act);
             }
 
         }
@@ -614,23 +611,21 @@ public class DynamicProgramming {
         int[][] dp = new int[m][m];
         dp[0][0] = triangle.get(0).get(0);
 
-        for(int i=1;i<m;i++){
+        for (int i = 1; i < m; i++) {
 
             int len = triangle.get(i).size();
-            for(int j=0;j<len;j++){
+            for (int j = 0; j < len; j++) {
 
-                if(j==0){
-                    dp[i][j]= triangle.get(i).get(j)+ dp[i-1][j];
-                }
-                else if(j==len-1){
-                    dp[i][j]=triangle.get(i).get(j)+ dp[i-1][j-1];
-                }
-                else dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]) + triangle.get(i).get(j);
+                if (j == 0) {
+                    dp[i][j] = triangle.get(i).get(j) + dp[i - 1][j];
+                } else if (j == len - 1) {
+                    dp[i][j] = triangle.get(i).get(j) + dp[i - 1][j - 1];
+                } else dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j]) + triangle.get(i).get(j);
             }
         }
         int ans = Integer.MAX_VALUE;
         for (int j = 0; j < m; j++) {
-            ans = Math.min(ans, dp[m-1][j]);
+            ans = Math.min(ans, dp[m - 1][j]);
         }
 
         return ans;
@@ -649,13 +644,13 @@ public class DynamicProgramming {
             for (int j = 0; j < rowSize; j++) {
                 if (j == 0) {
                     // first element in row -> can only come from directly above
-                    dp[i][j] = dp[i-1][j] + triangle.get(i).get(j);
+                    dp[i][j] = dp[i - 1][j] + triangle.get(i).get(j);
                 } else if (j == rowSize - 1) {
                     // last element in row -> can only come from above-left
-                    dp[i][j] = dp[i-1][j-1] + triangle.get(i).get(j);
+                    dp[i][j] = dp[i - 1][j - 1] + triangle.get(i).get(j);
                 } else {
                     // middle elements -> min of above and above-left
-                    dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]) + triangle.get(i).get(j);
+                    dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j]) + triangle.get(i).get(j);
                 }
             }
         }
@@ -663,12 +658,88 @@ public class DynamicProgramming {
         // answer = min in last row
         int ans = Integer.MAX_VALUE;
         for (int j = 0; j < m; j++) {
-            ans = Math.min(ans, dp[m-1][j]);
+            ans = Math.min(ans, dp[m - 1][j]);
         }
         return ans;
     }
 
+    public static int minimumTotalBottomUp(List<List<Integer>> triangle) {
 
+        int m = triangle.size();
+        int[][] dp = new int[m][m];
+
+        for (int j = 0; j < triangle.get(m - 1).size(); j++) {
+            dp[m - 1][j] = triangle.get(m - 1).get(j);
+        }
+
+        for (int i = m - 2; i >= 0; i--) {
+
+            int len = triangle.get(i).size();
+            for (int j = 0; j < len; j++) {
+
+                dp[i][j] = triangle.get(i).get(j) + Math.min(dp[i + 1][j + 1], dp[i + 1][j]);
+
+            }
+        }
+        return dp[0][0];
+    }
+
+    public static int minFallingPathSum(int[][] matrix) {
+
+        int minPath = Integer.MAX_VALUE;
+        int m = matrix.length;
+
+        int[][] dp = new int[m][m];
+        for (int[] row : dp) Arrays.fill(row, -1);
+
+        for (int i = 0; i < m; i++) dp[0][i] = matrix[0][i];
+
+        for (int i = 1; i < m; i++) {
+
+            for (int j = 0; j < m; j++) {
+                int left = Integer.MAX_VALUE, right = Integer.MAX_VALUE;
+                int up = matrix[i][j] + dp[i - 1][j];
+                if (j == 0) {
+                    right = matrix[i][j] + dp[i - 1][j + 1];
+                } else if (j == m - 1) {
+                    left = matrix[i][j] + dp[i - 1][j - 1];
+                } else {
+                    left = matrix[i][j] + dp[i - 1][j - 1];
+                    right = matrix[i][j] + dp[i - 1][j + 1];
+                }
+
+                dp[i][j] = Math.min(up, Math.min(left, right));
+
+            }
+
+        }
+        for (int j = 0; j < m; j++) minPath = Math.min(minPath, dp[m - 1][j]);
+
+        return minPath;
+
+    }
+
+    static int calculateMinFallingPathSum(int i, int j, int[][] matrix, int[][] dp) {
+
+
+        int n = matrix.length;
+        if (i == n - 1) return matrix[i][j];
+        if (j < 0 || j >= n) return Integer.MAX_VALUE;
+        if (dp[i][j] != 0) return dp[i][j];
+
+
+        /*int right = calculateMinFallingPathSum(i + 1, j + 1, matrix, dp);
+        int left = calculateMinFallingPathSum(i + 1, j - 1, matrix, dp);
+        int down = calculateMinFallingPathSum(i + 1, j, matrix, dp);*/
+
+        int up = matrix[i][j] + dp[i - 1][j];
+        int left = matrix[i][j] + dp[i - 1][j - 1];
+        int right = matrix[i][j] + dp[i - 1][j + 1];
+
+
+        dp[i][j] = matrix[i][j] + Math.min(up, Math.min(left, right));
+        return dp[i][j];
+    }
 
 
     public static void main(String[] args) {
@@ -680,10 +751,13 @@ public class DynamicProgramming {
         triangle.add(Arrays.asList(-1));
         //triangle.add(Arrays.asList(3, 4));
         triangle.add(Arrays.asList(2, 3));
-        triangle.add(Arrays.asList(1,-1,-3));
+        triangle.add(Arrays.asList(1, -1, -3));
 
 
-        System.out.println(minimumTotalTopDown(triangle));
+        int[][] ar = {{2, 1, 3}, {6, 5, 4}, {7, 8, 9}};
+
+
+        System.out.println(minFallingPathSum(ar));
 
 
     }
