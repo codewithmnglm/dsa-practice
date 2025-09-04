@@ -294,27 +294,60 @@ public class Recursion {
 
         int n = matrix.length;
 
-        if(j<0 || j>=n) return Integer.MAX_VALUE;
+        if (j < 0 || j >= n) return Integer.MAX_VALUE;
 
-        if(i==n-1) return matrix[i][j];
+        if (i == n - 1) return matrix[i][j];
 
-        int right= calculateMinFallingPathSum(i+1,j+1,matrix);
-        int left= calculateMinFallingPathSum(i+1,j-1,matrix);
-        int down= calculateMinFallingPathSum(i+1,j,matrix);
-
+        int right = calculateMinFallingPathSum(i + 1, j + 1, matrix);
+        int left = calculateMinFallingPathSum(i + 1, j - 1, matrix);
+        int down = calculateMinFallingPathSum(i + 1, j, matrix);
 
 
         return matrix[i][j] + Math.min(down, Math.min(left, right));
+    }
+
+    public static int subSetK2(int i, int[] arr, int target) {
+        if (target == 0) return 1;
+        if (i >= arr.length) return 0;
+        int left = subSetK2(i + 1, arr, target);
+        int right = 0;
+        if (arr[i] <= target) {
+            right = subSetK2(i + 1, arr, target - arr[i]);
+        }
+
+        return left + right;
+
+
+    }
+
+    public static int MinimumCoins(int[] coins, int amount) {
+        int ans =calculateCoins(0, coins, amount, 0);
+        return ans==Integer.MAX_VALUE?-1:ans;
+
+    }
+
+    public static int calculateCoins(int i, int[] coins, int amount, int count) {
+
+        if (i >= coins.length || amount < 0) return Integer.MAX_VALUE;
+        if (amount == 0) return count;
+        int take = calculateCoins(i, coins, amount - coins[i], count+1);
+        int skip = calculateCoins(i + 1, coins, amount - coins[i], count + 1);
+        return Math.min(take, skip);
     }
 
 
     public static void main(String[] args) {
 
 
-        int[][] ar = {{2, 1, 3}, {6, 5, 4}, {7, 8, 9}};
+        int[] ar = new int[]{9,6,5,1};
 
 
-        System.out.println(minFallingPathSum(ar));
+        // System.out.println(minFallingPathSum(ar,));
+
+
+        // System.out.println(subSetK2(0,ar,10));
+
+        System.out.println(MinimumCoins(ar, 11));
 
 
     }

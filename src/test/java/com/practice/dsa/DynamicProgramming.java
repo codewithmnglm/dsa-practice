@@ -741,6 +741,47 @@ public class DynamicProgramming {
         return dp[i][j];
     }
 
+    static int calculateSumWithK(int arr[], int target) {
+        int[][] dp = new int[arr.length][target + 1];
+        return subSetK2(0, arr, target,dp);
+    }
+
+    public static int subSetK2(int i, int[] arr, int target,int [][]dp) {
+        if (target == 0) return 1;
+        if (i >= arr.length) return 0;
+        if(dp[i][target]!=0) return dp[i][target];
+        int left = subSetK2(i + 1, arr, target,dp);
+        int right = 0;
+        if (arr[i] <= target) {
+            right = subSetK2(i + 1, arr, target - arr[i],dp);
+        }
+       dp[i][target]= left+right;
+        return dp[i][target];
+
+
+    }
+
+    public static void removeDuplicates(int[] nums) {
+
+     int []res = new int[nums.length];
+
+     LinkedHashSet<Integer> lhs= new LinkedHashSet<>();
+
+     for(int i:nums) lhs.add(i);
+
+        int size = lhs.size();
+        int i = 0;
+
+        for (Integer val : lhs) {
+            res[i]=val;
+            i++;
+        }
+
+        for(int p:res) System.out.println(p);
+
+
+    }
+
 
     public static void main(String[] args) {
 
@@ -754,10 +795,17 @@ public class DynamicProgramming {
         triangle.add(Arrays.asList(1, -1, -3));
 
 
-        int[][] ar = {{2, 1, 3}, {6, 5, 4}, {7, 8, 9}};
+      //  int[][] ar = {{2, 1, 3}, {6, 5, 4}, {7, 8, 9}};
+        int[] ar = new int[] {2, 3, 5, 16, 8, 10};
 
+        //System.out.println(minFallingPathSum(ar));
 
-        System.out.println(minFallingPathSum(ar));
+       // System.out.println(calculateSumWithK(ar,10))
+        //;
+        int []ar2={1,1,2};
+
+        removeDuplicates(ar2);
+
 
 
     }
