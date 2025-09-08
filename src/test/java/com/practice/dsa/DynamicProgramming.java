@@ -831,7 +831,7 @@ public class DynamicProgramming {
                 int no = dp[i - 1][j];
                 int yes = (int) 1e9;
                 if (coins[i] <= j) {
-                    yes = 1+dp[i][j - coins[i]];
+                    yes = 1 + dp[i][j - coins[i]];
                 }
                 dp[i][j] = Math.min(yes, no);
             }
@@ -844,62 +844,96 @@ public class DynamicProgramming {
     public static int change(int amount, int[] coins) {
 
         int len = coins.length;
-        int [][] dp= new int[len][amount+1];
+        int[][] dp = new int[len][amount + 1];
 
-        for(int i=0;i<=amount;i++){
+        for (int i = 0; i <= amount; i++) {
 
-            if(i%coins[0]==0) dp[0][i]= 1;
-            else dp[0][i]=0;
+            if (i % coins[0] == 0) dp[0][i] = 1;
+            else dp[0][i] = 0;
         }
 
-        for(int i=1;i<coins.length;i++){
+        for (int i = 1; i < coins.length; i++) {
 
-            for (int j=0;j<=amount;j++){
+            for (int j = 0; j <= amount; j++) {
 
-                int no= dp[i-1][j];
-                int yes =0;
-                if(j>=coins[i]){
-                    yes =dp[i][j-coins[i]];
+                int no = dp[i - 1][j];
+                int yes = 0;
+                if (j >= coins[i]) {
+                    yes = dp[i][j - coins[i]];
                 }
-                dp [i][j]= yes+no;
+                dp[i][j] = yes + no;
             }
         }
 
 
-        return dp[len-1][amount];
+        return dp[len - 1][amount];
     }
 
     public static int longestCommonSubsequence(String text1, String text2) {
 
-        int len1=text1.length();
-        int len2=text2.length();
+        int len1 = text1.length();
+        int len2 = text2.length();
 
-        int [][]dp= new int [len1][len2];
+        int[][] dp = new int[len1][len2];
 
         for (int i = 0; i < len1; i++) {
             Arrays.fill(dp[i], -1);   // fill each 1D row
         }
 
-        return f(len1-1,len2-1, text1, text2,dp);
+        return f(len1 - 1, len2 - 1, text1, text2, dp);
 
 
     }
 
-    public static int f(int i,int j, String text1, String text2,int [][]dp){
+    public static int f(int i, int j, String text1, String text2, int[][] dp) {
 
-        if(i<0 || j<0) return 0;
+        if (i < 0 || j < 0) return 0;
 
-        char a= text1.charAt(i);
-        char b= text2.charAt(j);
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
 
-        if(dp[i][j]!=-1) return dp[i][j];
+        if (dp[i][j] != -1) return dp[i][j];
 
-        if(a==b) return 1+ f(i-1,j-1,text1,text2,dp);
+        if (a == b) return 1 + f(i - 1, j - 1, text1, text2, dp);
 
-        else return dp[i][j]=Math.max(f(i-1,j,text1,text2,dp),f(i,j-1,text1,text2,dp));
+        else return dp[i][j] = Math.max(f(i - 1, j, text1, text2, dp), f(i, j - 1, text1, text2, dp));
 
 
+    }
 
+    public static String printLCS(String text1, String text2) {
+
+        int len1 = text1.length();
+        int len2 = text2.length();
+
+        String[][] dp = new String[len1][len2];
+
+        String res = lcs(len1 - 1, len2 - 1, text1, text2, dp);
+
+        return !res.isEmpty() ? res : "No Valid String Found";
+
+
+    }
+
+
+    public static String lcs(int i, int j, String text1, String text2, String[][] dp) {
+
+        if (i < 0 || j < 0) return "";
+
+        if (dp[i][j] != null) return dp[i][j];
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) dp[i][j] = lcs(i - 1, j - 1, text1, text2, dp)+a;
+
+        else {
+            String s1 = lcs(i - 1, j, text1, text2, dp);
+            String s2 = lcs(i, j - 1, text1, text2, dp);
+
+            dp[i][j] = s1.length() > s2.length() ? s1 : s2;
+        }
+        return dp[i][j];
 
     }
 
@@ -907,12 +941,15 @@ public class DynamicProgramming {
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{1,2,5};
+        int[] ar = new int[]{1, 2, 5};
 
-       // System.out.println(calculateCoinsTabulation(ar,11));
+        // System.out.println(calculateCoinsTabulation(ar,11));
 
 
-        System.out.println(longestCommonSubsequence("abcde","ace"));
+        System.out.println(longestCommonSubsequence("abcde", "ace"));
+
+
+        System.out.println(printLCS("abcde", "ace"));
 
 
     }

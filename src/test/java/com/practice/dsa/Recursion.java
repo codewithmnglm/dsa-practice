@@ -345,7 +345,7 @@ public class Recursion {
     }
 
     public static int unboundedKnapsack(int[] wt, int[] val, int n, int W) {
-        return calculateMax(n-1,wt,val,W);
+        return calculateMax(n - 1, wt, val, W);
 
     }
 
@@ -372,34 +372,58 @@ public class Recursion {
 
     public int longestCommonSubsequence(String text1, String text2) {
 
-        int len1=text1.length();
-        int len2=text2.length();
+        int len1 = text1.length();
+        int len2 = text2.length();
 
-        return f(len1-1,len2-1, text1, text2);
-
-
-    }
-
-    public static int f(int i,int j, String text1, String text2){
-
-        if(i<0 || j<0) return 0;
-
-        char a= text1.charAt(i);
-        char b= text2.charAt(j);
-
-        if(a==b) return 1+ f(i-1,j-1,text1,text2);
-
-        else return Math.max(f(i-1,j,text1,text2),f(i,j-1,text1,text2));
-
-
+        return f(len1 - 1, len2 - 1, text1, text2);
 
 
     }
 
+    public static int f(int i, int j, String text1, String text2) {
+
+        if (i < 0 || j < 0) return 0;
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) return 1 + f(i - 1, j - 1, text1, text2);
+
+        else return Math.max(f(i - 1, j, text1, text2), f(i, j - 1, text1, text2));
 
 
+    }
+
+    public static String printLCS(String text1, String text2) {
+
+        int len1 = text1.length();
+        int len2 = text2.length();
+
+        String res = lcs(len1 - 1, len2 - 1, text1, text2);
+
+        return !res.isEmpty() ? res : "No Valid String Found";
 
 
+    }
+
+    public static String lcs(int i, int j, String text1, String text2) {
+
+        if (i < 0 || j < 0) return "";
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) return lcs(i - 1, j - 1, text1, text2) + a;
+
+        else {
+            String s1 = lcs(i - 1, j, text1, text2);
+            String s2 = lcs(i, j - 1, text1, text2);
+
+            return s1.length() > s2.length() ? s1 : s2;
+        }
+
+
+    }
 
 
     public static void main(String[] args) {
@@ -408,15 +432,14 @@ public class Recursion {
         int[] ar = new int[]{9, 6, 5, 1};
 
 
-       // System.out.println(MinimumCoins(ar, 11));
+        // System.out.println(MinimumCoins(ar, 11));
 
-        int []val = {5, 11, 13};
-        int []wt = {2, 4, 6};
-        int W=10;
+        int[] val = {5, 11, 13};
+        int[] wt = {2, 4, 6};
+        int W = 10;
 
 
-
-        System.out.println(unboundedKnapsack(wt,val,wt.length,W));
+        System.out.println(unboundedKnapsack(wt, val, wt.length, W));
 
 
     }
