@@ -370,6 +370,32 @@ public class Recursion {
         return Math.max(no, yes);
     }
 
+    public int longestCommonSubsequence(String text1, String text2) {
+
+        int len1=text1.length();
+        int len2=text2.length();
+
+        return f(len1-1,len2-1, text1, text2);
+
+
+    }
+
+    public static int f(int i,int j, String text1, String text2){
+
+        if(i<0 || j<0) return 0;
+
+        char a= text1.charAt(i);
+        char b= text2.charAt(j);
+
+        if(a==b) return 1+ f(i-1,j-1,text1,text2);
+
+        else return Math.max(f(i-1,j,text1,text2),f(i,j-1,text1,text2));
+
+
+
+
+    }
+
 
 
 

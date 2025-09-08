@@ -869,13 +869,50 @@ public class DynamicProgramming {
         return dp[len-1][amount];
     }
 
+    public static int longestCommonSubsequence(String text1, String text2) {
+
+        int len1=text1.length();
+        int len2=text2.length();
+
+        int [][]dp= new int [len1][len2];
+
+        for (int i = 0; i < len1; i++) {
+            Arrays.fill(dp[i], -1);   // fill each 1D row
+        }
+
+        return f(len1-1,len2-1, text1, text2,dp);
+
+
+    }
+
+    public static int f(int i,int j, String text1, String text2,int [][]dp){
+
+        if(i<0 || j<0) return 0;
+
+        char a= text1.charAt(i);
+        char b= text2.charAt(j);
+
+        if(dp[i][j]!=-1) return dp[i][j];
+
+        if(a==b) return 1+ f(i-1,j-1,text1,text2,dp);
+
+        else return dp[i][j]=Math.max(f(i-1,j,text1,text2,dp),f(i,j-1,text1,text2,dp));
+
+
+
+
+    }
+
 
     public static void main(String[] args) {
 
 
         int[] ar = new int[]{1,2,5};
 
-        System.out.println(calculateCoinsTabulation(ar,11));
+       // System.out.println(calculateCoinsTabulation(ar,11));
+
+
+        System.out.println(longestCommonSubsequence("abcde","ace"));
 
 
     }
