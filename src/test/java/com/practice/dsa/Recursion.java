@@ -252,7 +252,6 @@ public class Recursion {
 
     }
 
-
     public static int ninjaTraining(int n, int points[][]) {
 
         int[][] dp = new int[n][4];
@@ -321,33 +320,77 @@ public class Recursion {
     }
 
     public static int MinimumCoins(int[] coins, int amount) {
-        int ans =calculateCoins(0, coins, amount, 0);
-        return ans==Integer.MAX_VALUE?-1:ans;
+
+        int ans = calculateCoins(coins.length - 1, coins, amount);
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public static int calculateCoins(int i, int[] coins, int amount) {
+
+        if (i == 0) {
+            if (amount % coins[0] == 0) return amount / coins[0];
+            else return Integer.MAX_VALUE;
+        }
+
+        int no = calculateCoins(i - 1, coins, amount);
+        int yes = Integer.MAX_VALUE;
+        if (amount >= coins[i]) {
+            int sub = calculateCoins(i, coins, amount - coins[i]);
+            if (sub != Integer.MAX_VALUE) {
+                yes = 1 + sub;
+            }
+        }
+        return Math.min(yes, no);
 
     }
 
-    public static int calculateCoins(int i, int[] coins, int amount, int count) {
+    public static int unboundedKnapsack(int[] wt, int[] val, int n, int W) {
+        return calculateMax(n-1,wt,val,W);
 
-        if (i >= coins.length || amount < 0) return Integer.MAX_VALUE;
-        if (amount == 0) return count;
-        int take = calculateCoins(i, coins, amount - coins[i], count+1);
-        int skip = calculateCoins(i + 1, coins, amount - coins[i], count + 1);
-        return Math.min(take, skip);
     }
+
+    public static int calculateMax(int i, int[] wt, int[] val, int W) {
+        // Base case: only item 0 available
+        if (i == 0) {
+            if (wt[0] <= W) {
+                return (W / wt[0]) * val[0];  // take as many as possible
+            }
+            return 0;
+        }
+
+        // Option 1: don't take item i
+        int no = calculateMax(i - 1, wt, val, W);
+
+        // Option 2: take item i (stay at same i since it's unbounded)
+        int yes = Integer.MIN_VALUE;
+        if (wt[i] <= W) {
+            yes = val[i] + calculateMax(i, wt, val, W - wt[i]);
+        }
+
+        return Math.max(no, yes);
+    }
+
+
+
+
+
 
 
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{9,6,5,1};
+        int[] ar = new int[]{9, 6, 5, 1};
 
 
-        // System.out.println(minFallingPathSum(ar,));
+       // System.out.println(MinimumCoins(ar, 11));
+
+        int []val = {5, 11, 13};
+        int []wt = {2, 4, 6};
+        int W=10;
 
 
-        // System.out.println(subSetK2(0,ar,10));
 
-        System.out.println(MinimumCoins(ar, 11));
+        System.out.println(unboundedKnapsack(wt,val,wt.length,W));
 
 
     }

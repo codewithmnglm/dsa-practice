@@ -743,19 +743,19 @@ public class DynamicProgramming {
 
     static int calculateSumWithK(int arr[], int target) {
         int[][] dp = new int[arr.length][target + 1];
-        return subSetK2(0, arr, target,dp);
+        return subSetK2(0, arr, target, dp);
     }
 
-    public static int subSetK2(int i, int[] arr, int target,int [][]dp) {
+    public static int subSetK2(int i, int[] arr, int target, int[][] dp) {
         if (target == 0) return 1;
         if (i >= arr.length) return 0;
-        if(dp[i][target]!=0) return dp[i][target];
-        int left = subSetK2(i + 1, arr, target,dp);
+        if (dp[i][target] != 0) return dp[i][target];
+        int left = subSetK2(i + 1, arr, target, dp);
         int right = 0;
         if (arr[i] <= target) {
-            right = subSetK2(i + 1, arr, target - arr[i],dp);
+            right = subSetK2(i + 1, arr, target - arr[i], dp);
         }
-       dp[i][target]= left+right;
+        dp[i][target] = left + right;
         return dp[i][target];
 
 
@@ -763,49 +763,119 @@ public class DynamicProgramming {
 
     public static void removeDuplicates(int[] nums) {
 
-     int []res = new int[nums.length];
+        int[] res = new int[nums.length];
 
-     LinkedHashSet<Integer> lhs= new LinkedHashSet<>();
+        LinkedHashSet<Integer> lhs = new LinkedHashSet<>();
 
-     for(int i:nums) lhs.add(i);
+        for (int i : nums) lhs.add(i);
 
         int size = lhs.size();
         int i = 0;
 
         for (Integer val : lhs) {
-            res[i]=val;
+            res[i] = val;
             i++;
         }
 
-        for(int p:res) System.out.println(p);
+        for (int p : res) System.out.println(p);
 
 
+    }
+
+    public static int MinimumCoins(int[] coins, int amount) {
+        int[][] dp = new int[coins.length][amount + 1];
+
+        for (int i = 0; i < coins.length; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        int ans = calculateCoinsMemoization(coins.length - 1, coins, amount, dp);
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public static int calculateCoinsMemoization(int i, int[] coins, int amount, int[][] dp) {
+
+        if (i == 0) {
+            if (amount % coins[0] == 0) return amount / coins[0];
+            else return Integer.MAX_VALUE;
+        }
+        if (dp[i][amount] != -1) return dp[i][amount];
+        int no = calculateCoinsMemoization(i - 1, coins, amount, dp);
+        int yes = Integer.MAX_VALUE;
+        if (amount >= coins[i]) {
+            int sub = calculateCoinsMemoization(i, coins, amount - coins[i], dp);
+            if (sub != Integer.MAX_VALUE) {
+                yes = 1 + sub;
+            }
+        }
+        dp[i][amount] = Math.min(yes, no);
+        return dp[i][amount];
+
+    }
+
+
+    public static int calculateCoinsTabulation(int[] coins, int amount) {
+
+        int len = coins.length;
+        int[][] dp = new int[len][amount + 1];
+
+        for (int j = 0; j <= amount; j++) {
+            if (j % coins[0] == 0) dp[0][j] = j / coins[0];
+            else dp[0][j] = (int) 1e9;
+        }
+
+
+        for (int i = 1; i < len; i++) {
+
+            for (int j = 0; j <= amount; j++) {
+
+                int no = dp[i - 1][j];
+                int yes = (int) 1e9;
+                if (coins[i] <= j) {
+                    yes = 1+dp[i][j - coins[i]];
+                }
+                dp[i][j] = Math.min(yes, no);
+            }
+
+        }
+        return dp[len - 1][amount];
+
+    }
+
+    public static int change(int amount, int[] coins) {
+
+        int len = coins.length;
+        int [][] dp= new int[len][amount+1];
+
+        for(int i=0;i<=amount;i++){
+
+            if(i%coins[0]==0) dp[0][i]= 1;
+            else dp[0][i]=0;
+        }
+
+        for(int i=1;i<coins.length;i++){
+
+            for (int j=0;j<=amount;j++){
+
+                int no= dp[i-1][j];
+                int yes =0;
+                if(j>=coins[i]){
+                    yes =dp[i][j-coins[i]];
+                }
+                dp [i][j]= yes+no;
+            }
+        }
+
+
+        return dp[len-1][amount];
     }
 
 
     public static void main(String[] args) {
 
 
-        int nums[] = {2, 1};
-        List<List<Integer>> triangle = new ArrayList<>();
+        int[] ar = new int[]{1,2,5};
 
-        triangle.add(Arrays.asList(-1));
-        //triangle.add(Arrays.asList(3, 4));
-        triangle.add(Arrays.asList(2, 3));
-        triangle.add(Arrays.asList(1, -1, -3));
-
-
-      //  int[][] ar = {{2, 1, 3}, {6, 5, 4}, {7, 8, 9}};
-        int[] ar = new int[] {2, 3, 5, 16, 8, 10};
-
-        //System.out.println(minFallingPathSum(ar));
-
-       // System.out.println(calculateSumWithK(ar,10))
-        //;
-        int []ar2={1,1,2};
-
-        removeDuplicates(ar2);
-
+        System.out.println(calculateCoinsTabulation(ar,11));
 
 
     }
