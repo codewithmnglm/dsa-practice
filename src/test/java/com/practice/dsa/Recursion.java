@@ -425,6 +425,45 @@ public class Recursion {
 
     }
 
+    public static String printLCSubString(String text1, String text2) {
+
+        int len1 = text1.length();
+        int len2 = text2.length();
+
+        String max="";
+        String cur="";
+
+        String res = f1(len1 - 1, len2 - 1, text1, text2,max,cur);
+
+        return !res.isEmpty() ? res : "No Valid String Found";
+
+
+    }
+    public static String f1(int i, int j, String text1, String text2,String max,String cur) {
+
+        if (i < 0 || j < 0) return "";
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) return f1(i - 1, j - 1, text1, text2,max,cur) + a;
+
+        else {
+            if(cur.length()>max.length()){
+                max=cur;
+            }
+            cur="";
+            String s1 = f1(i - 1, j, text1, text2,max,cur);
+            String s2 = f1(i, j - 1, text1, text2,max,cur);
+            return s1.length()>s2.length()?s1:s2;
+        }
+
+
+    }
+
+
+
+
 
     public static void main(String[] args) {
 
@@ -439,7 +478,11 @@ public class Recursion {
         int W = 10;
 
 
-        System.out.println(unboundedKnapsack(wt, val, wt.length, W));
+       // System.out.println(unboundedKnapsack(wt, val, wt.length, W));
+
+
+        System.out.println(printLCSubString("xyzabcmn","pqabcmr"));
+
 
 
     }

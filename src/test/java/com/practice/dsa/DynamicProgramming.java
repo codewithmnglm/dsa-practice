@@ -938,6 +938,51 @@ public class DynamicProgramming {
     }
 
 
+    public static String printLCSubString(String text1, String text2) {
+
+        int len1 = text1.length();
+        int len2 = text2.length();
+
+        String max="";
+        String cur="";
+
+        String[][] dp = new String[len1][len2];
+
+        String res = f1(len1 - 1, len2 - 1, text1, text2,max,cur,dp);
+
+        return !res.isEmpty() ? res : "No Valid String Found";
+
+
+    }
+    public static String f1(int i, int j, String text1, String text2,String max,String cur,String [][]dp) {
+
+        if (i < 0 || j < 0) return "";
+
+        if(dp[i][j]!=null) return dp[i][j];
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) dp[i][j]=f1(i - 1, j - 1, text1, text2,max,cur,dp) + a;
+
+        else {
+            if(cur.length()>max.length()){
+                max=cur;
+            }
+            cur="";
+            String s1 = f1(i - 1, j, text1, text2,max,cur,dp);
+            String s2 = f1(i, j - 1, text1, text2,max,cur,dp);
+            if(s1.length()>s2.length()) dp[i][j]=s1;
+            else dp[i][j]=s2;
+
+        }
+
+         return dp[i][j];
+    }
+
+
+
+
     public static void main(String[] args) {
 
 
@@ -946,10 +991,13 @@ public class DynamicProgramming {
         // System.out.println(calculateCoinsTabulation(ar,11));
 
 
-        System.out.println(longestCommonSubsequence("abcde", "ace"));
+       // System.out.println(longestCommonSubsequence("abcde", "ace"));
 
 
-        System.out.println(printLCS("abcde", "ace"));
+       // System.out.println(printLCS("abcde", "ace"));
+
+
+        System.out.println(printLCSubString("abcdxxyyz","xxyyzabcd"));
 
 
     }
