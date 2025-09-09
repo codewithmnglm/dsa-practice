@@ -982,6 +982,67 @@ public class DynamicProgramming {
 
 
 
+    public static int longestPalindromeSubsequence(String s) {
+
+        int[][] dp = new int[s.length()][s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            Arrays.fill(dp[i], -1);
+        }
+
+        return f2(s, 0, s.length() - 1,dp);
+    }
+
+
+    public static int f2(String s, int i, int j,int [][]dp) {
+
+        if (i > j) return 0;
+
+        if(dp[i][j] !=-1) return dp[i][j];
+
+        if(i==j) return 1;
+
+        char a = s.charAt(i);
+        char b = s.charAt(j);
+
+        if (a == b) dp[i][j]=2 + f2(s, i + 1, j - 1,dp);
+        else {
+
+
+            dp[i][j]= Math.max(f2(s, i, j - 1,dp), f2(s, i + 1, j,dp));
+
+        }
+         return dp[i][j];
+    }
+
+    public static int longestPalindromeSubsequenceTabulation(String s) {
+
+        int[][] dp = new int[s.length()][s.length()];
+
+        for (int i=0;i<s.length();i++) dp[0][i]=0;
+        for (int i=0;i<s.length();i++) dp[i][0]=0;
+
+        for(int i=1;i<s.length();i++){
+
+            for (int j=s.length()-1;j>=0;j--){
+
+               char a = s.charAt(i);
+                char b = s.charAt(j);
+
+                if(a==b) dp[i][j]= 2 + dp[i-1][j+1];
+                else{
+                    dp [i][j] = Math.max(dp[i][j+1],dp[i-1][j]);
+                }
+                return dp[i][j];
+            }
+
+
+
+
+        }  return dp[s.length()/2][s.length()/2];
+    }
+
+
+
 
     public static void main(String[] args) {
 
@@ -997,8 +1058,10 @@ public class DynamicProgramming {
        // System.out.println(printLCS("abcde", "ace"));
 
 
-        System.out.println(printLCSubString("abcdxxyyz","xxyyzabcd"));
+       // System.out.println(printLCSubString("abcdxxyyz","xxyyzabcd"));
 
+      //  System.out.println(longestPalindromeSubsequence("euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew"));
+        System.out.println(longestPalindromeSubsequenceTabulation("bbbbabb"));
 
     }
 }
