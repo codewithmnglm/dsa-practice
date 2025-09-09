@@ -7,6 +7,8 @@ public class Recursion {
 
     static int count = 0;
 
+    static int maxLen = 0;
+
     static boolean check(int i, int n) {
 
         int pow = (int) Math.pow(2, i);
@@ -489,6 +491,36 @@ public class Recursion {
     }
 
 
+    public static int longestPalindromeSubString(String s) {
+        maxLen = 0;
+        f3(s, 0, s.length() - 1);
+        return maxLen;
+    }
+
+
+    private static void f3(String s, int i, int j) {
+        if (i > j) return;
+
+
+        if (isPalindrome(s, i, j)) {
+            maxLen = Math.max(maxLen, j - i + 1);
+        }
+
+
+        f3(s, i + 1, j);
+        f3(s, i, j - 1);
+    }
+    private static boolean isPalindrome(String s, int i, int j) {
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+
+
     public static void main(String[] args) {
 
 
@@ -508,7 +540,9 @@ public class Recursion {
        // System.out.println(printLCSubString("xyzabcmn", "pqabcmr"));
 
 
-        System.out.println(longestPalindromeSubsequence("cbbd"));
+      //  System.out.println(longestPalindromeSubsequence("cbbd"));
+
+        System.out.println(longestPalindromeSubString("cbbd"));
 
 
     }
