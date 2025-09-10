@@ -4,6 +4,8 @@ import java.util.*;
 
 public class DynamicProgramming {
 
+    static String ans;
+
     public static int lengthOfLIS(int[] nums) {
 
         int min = nums[0];
@@ -812,7 +814,6 @@ public class DynamicProgramming {
 
     }
 
-
     public static int calculateCoinsTabulation(int[] coins, int amount) {
 
         int len = coins.length;
@@ -915,6 +916,11 @@ public class DynamicProgramming {
 
     }
 
+    public static String longestCommonSubsequenceTabulation(String text1, String text2) {
+
+
+        return "";
+    }
 
     public static String lcs(int i, int j, String text1, String text2, String[][] dp) {
 
@@ -936,7 +942,6 @@ public class DynamicProgramming {
         return dp[i][j];
 
     }
-
 
     public static String printLCSubString(String text1, String text2) {
 
@@ -988,22 +993,21 @@ public class DynamicProgramming {
         int len2 = str2.length();
 
 
-        int[][] dp = new int[len+1][len2+1];
+        int[][] dp = new int[len + 1][len2 + 1];
 
         int ans = Integer.MIN_VALUE;
 
-        for (int i = 1; i <=len; i++) {
+        for (int i = 1; i <= len; i++) {
 
             for (int j = 1; j <= len2; j++) {
 
                 char a = str1.charAt(i - 1);
                 char b = str2.charAt(j - 1);
 
-                if (a == b){
+                if (a == b) {
                     dp[i][j] = 1 + dp[i - 1][j - 1];
                     ans = Math.max(ans, dp[i][j]);
-                }
-                else dp[i][j] = 0;
+                } else dp[i][j] = 0;
 
 
             }
@@ -1014,6 +1018,45 @@ public class DynamicProgramming {
 
     }
 
+    public static String printlongestCommonSubstringTabulation(String str1, String str2) {
+
+
+        int len = str1.length();
+        int len2 = str2.length();
+
+
+        String[][] dp = new String[len + 1][len2 + 1];
+        for (int i = 0; i <= len; i++) {
+            for (int j = 0; j <= len2; j++) {
+                dp[i][j] = "";
+            }
+        }
+
+
+        String ans = "";
+
+        for (int i = 1; i <= len; i++) {
+
+            for (int j = 1; j <= len2; j++) {
+
+                char a = str1.charAt(i - 1);
+                char b = str2.charAt(j - 1);
+
+                if (a == b) {
+                    dp[i][j] = a + dp[i - 1][j - 1];
+
+                    ans = dp[i][j].length() > ans.length() ? dp[i][j] : ans;
+                    // ans = Math.max(ans, dp[i][j]);
+                } else dp[i][j] = "";
+
+
+            }
+        }
+
+        return ans;
+
+
+    }
 
     public static int longestPalindromeSubsequence(String s) {
 
@@ -1024,7 +1067,6 @@ public class DynamicProgramming {
 
         return f2(s, 0, s.length() - 1, dp);
     }
-
 
     public static int f2(String s, int i, int j, int[][] dp) {
 
@@ -1047,31 +1089,18 @@ public class DynamicProgramming {
         return dp[i][j];
     }
 
-    public static int longestPalindromeSubsequenceTabulation(String s) {
 
-        int[][] dp = new int[s.length()][s.length()];
-
-        for (int i = 0; i < s.length(); i++) dp[0][i] = 0;
-        for (int i = 0; i < s.length(); i++) dp[i][0] = 0;
-
-        for (int i = 1; i < s.length(); i++) {
-
-            for (int j = s.length() - 1; j >= 0; j--) {
-
-                char a = s.charAt(i);
-                char b = s.charAt(j);
-
-                if (a == b) dp[i][j] = 2 + dp[i - 1][j + 1];
-                else {
-                    dp[i][j] = Math.max(dp[i][j + 1], dp[i - 1][j]);
-                }
-                return dp[i][j];
-            }
-
-
+    private static boolean isPalindrome(String str) {
+        int l = 0, r = str.length() - 1;
+        while (l < r) {
+            if (str.charAt(l) != str.charAt(r)) return false;
+            l++;
+            r--;
         }
-        return dp[s.length() / 2][s.length() / 2];
+        return true;
     }
+
+
 
 
     public static void main(String[] args) {
@@ -1091,7 +1120,9 @@ public class DynamicProgramming {
         // System.out.println(printLCSubString("abcdxxyyz","xxyyzabcd"));
 
         //  System.out.println(longestPalindromeSubsequence("euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew"));
-        System.out.println(longestCommonSubstringTabulation("abcde","abfce"));
+        // System.out.println(printlongestCommonSubstringTabulation("abcde","abfce"));
+        String s = "abccccdd";
+
 
     }
 }
