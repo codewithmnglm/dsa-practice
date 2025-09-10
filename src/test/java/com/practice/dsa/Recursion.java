@@ -8,6 +8,7 @@ public class Recursion {
     static int count = 0;
 
     static int maxLen = 0;
+    static String res = "";
 
     static boolean check(int i, int n) {
 
@@ -476,7 +477,7 @@ public class Recursion {
 
         if (i > j) return 0;
 
-        if(i==j) return 1;
+        if (i == j) return 1;
 
         char a = s.charAt(i);
         char b = s.charAt(j);
@@ -510,6 +511,42 @@ public class Recursion {
         f3(s, i + 1, j);
         f3(s, i, j - 1);
     }
+
+
+    public static int countSubstrings(String s) {
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        //f4(s, 0, s.length() - 1 ,dp);
+        return count;
+
+    }
+
+    public static String longestPalindrome(String s) {
+
+        int n = s.length();
+
+        f4(s, 0, n - 1);
+
+        return res;
+    }
+
+    public static void f4(String s, int i, int j) {
+
+       if(j<i) return;
+
+       if(isPalindrome(s,i,j)) {
+           String sun= s.substring(i,j+1);
+           res= sun.length()>res.length()?sun:res;
+       }
+       else {
+           f4(s,i+1,j);
+           f4(s,i,j-1);
+       }
+
+
+    }
+
+
     private static boolean isPalindrome(String s, int i, int j) {
         while (i < j) {
             if (s.charAt(i) != s.charAt(j)) return false;
@@ -518,7 +555,6 @@ public class Recursion {
         }
         return true;
     }
-
 
 
     public static void main(String[] args) {
@@ -537,12 +573,15 @@ public class Recursion {
         // System.out.println(unboundedKnapsack(wt, val, wt.length, W));
 
 
-       // System.out.println(printLCSubString("xyzabcmn", "pqabcmr"));
+        // System.out.println(printLCSubString("xyzabcmn", "pqabcmr"));
 
 
-      //  System.out.println(longestPalindromeSubsequence("cbbd"));
+        //  System.out.println(longestPalindromeSubsequence("cbbd"));
 
-        System.out.println(longestPalindromeSubString("cbbd"));
+        // System.out.println(longestPalindromeSubString("cbbd"));
+
+       // System.out.println(countSubstrings("abc"));
+        System.out.println(longestPalindrome("babaddtattarrattatddetartrateedredividerb"));
 
 
     }
