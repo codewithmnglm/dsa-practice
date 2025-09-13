@@ -1089,11 +1089,11 @@ public class DynamicProgramming {
         return dp[i][j];
     }
 
-    public static String longestPalindrome(String s){
+    public static String longestPalindrome(String s) {
 
-      int n =s.length();
+        int n = s.length();
 
-      int[][]dp= new int[n][n];
+        int[][] dp = new int[n][n];
 
         for (int[] row : dp)
             Arrays.fill(row, -1);
@@ -1115,11 +1115,9 @@ public class DynamicProgramming {
         return s.substring(sp, sp + maxLen);
 
 
-
-
     }
 
-    private static boolean isPalindrome(String s, int i, int j,int [][]dp) {
+    private static boolean isPalindrome(String s, int i, int j, int[][] dp) {
 
         if (dp[i][j] != -1)
             return dp[i][j] == 1;
@@ -1129,24 +1127,86 @@ public class DynamicProgramming {
             return true;
         }
 
-        char a= s.charAt(i);
-        char b= s.charAt(j);
+        char a = s.charAt(i);
+        char b = s.charAt(j);
 
-        if(a!=b) {
-            dp[i][j]=0;
+        if (a != b) {
+            dp[i][j] = 0;
             return false;
 
         }
 
-        if(isPalindrome(s,i+1,j-1,dp)){
-            dp[i][j]=1;
+        if (isPalindrome(s, i + 1, j - 1, dp)) {
+            dp[i][j] = 1;
             return true;
-        }
-        else{
-            dp[i][j]=0;
+        } else {
+            dp[i][j] = 0;
             return false;
         }
 
+
+    }
+
+    private static int maxSubArray(int[] ar) {
+
+
+        int[] dp = new int[ar.length];
+
+        dp[0] = ar[0];
+        int res = Integer.MIN_VALUE;
+
+        for (int i = 1; i < ar.length; i++) {
+
+            if (dp[i - 1] < 0) dp[i] = ar[i];
+
+            else dp[i] = ar[i] + dp[i - 1];
+
+        }
+
+        for (int j : dp) res = Math.max(res, j);
+        return res;
+    }
+
+    public static int maxProduct(int[] nums) {
+
+        int len = nums.length;
+
+        int[] dp = new int[len]; //-2,3,-4
+        dp[0] = nums[0];
+        int negP = nums[0] >= 0 ? 1 : nums[0];
+
+        for (int i = 1; i < len; i++) {
+
+
+            if (dp[i - 1] == 0) dp[i] = nums[i];
+
+            else if (nums[i] == 0) dp[i] = 0;
+
+            else if (nums[i] > 0) {
+                if (dp[i - 1] > 0) dp[i] = dp[i - 1] * nums[i];
+
+                else if (dp[i - 1] < 0) {
+                    negP = dp[i-1] * nums[i];
+                    dp[i] = nums[i];
+                }
+
+            } else if (nums[i] < 0) {
+
+                if (dp[i - 1] < 0) dp[i] = nums[i] * Math.max(dp[i - 1] ,negP);
+
+                else if (dp[i - 1] > 0) {
+                    negP = dp[i-1] * nums[i];
+                    dp[i] = Math.min(dp[i-1], negP);
+                }
+
+
+            }
+
+
+        }
+        int res = Integer.MIN_VALUE;
+        for (int j : dp) res = Math.max(res, j);
+        return res;
 
     }
 
@@ -1154,7 +1214,9 @@ public class DynamicProgramming {
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{1, 2, 5};
+        // int[] ar = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
+
+        int[] ar = new int[]{-2,3,-4};
 
         // System.out.println(calculateCoinsTabulation(ar,11));
 
@@ -1170,8 +1232,9 @@ public class DynamicProgramming {
         //  System.out.println(longestPalindromeSubsequence("euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew"));
         // System.out.println(printlongestCommonSubstringTabulation("abcde","abfce"));
         String s = "abccccdd";
-        System.out.println(longestPalindrome("abcba"));
+        //  System.out.println(longestPalindrome("abcba"));
 
+        System.out.println(maxProduct(ar));
 
     }
 }
