@@ -397,6 +397,40 @@ public class Recursion {
 
     }
 
+    public static int lc583(String word1, String word2) {
+        /*https://leetcode.com/problems/delete-operation-for-two-strings/description/*/
+
+
+        int len1 = word1.length();
+        int len2 = word2.length();
+
+        int max = f9(len1 - 1, len2 - 1, word1, word2);
+
+        if (max == len1 || max == len2) return Math.abs(len2 - len1);
+
+        else {
+            return len1 + len2 - (2 * max);
+        }
+
+
+    }
+
+    public static int f9(int i, int j, String word1, String word2) {
+
+        if (i < 0 || j < 0) return 0;
+
+        char a = word1.charAt(i);
+        char b = word2.charAt(j);
+
+        if (a == b) {
+            return 1 + f9(i - 1, j - 1, word1, word2);
+        }
+
+        return Math.max(f9(i - 1, j, word1, word2), f9(i, j - 1, word1, word2));
+
+
+    }
+
     public static String printLCS(String text1, String text2) {
 
         int len1 = text1.length();
@@ -532,16 +566,47 @@ public class Recursion {
 
     public static void f4(String s, int i, int j) {
 
-       if(j<i) return;
+        if (j < i) return;
 
-       if(isPalindrome(s,i,j)) {
-           String sun= s.substring(i,j+1);
-           res= sun.length()>res.length()?sun:res;
-       }
-       else {
-           f4(s,i+1,j);
-           f4(s,i,j-1);
-       }
+        if (isPalindrome(s, i, j)) {
+            String sun = s.substring(i, j + 1);
+            res = sun.length() > res.length() ? sun : res;
+        } else {
+            f4(s, i + 1, j);
+            f4(s, i, j - 1);
+        }
+
+
+    }
+
+    public static int minDistance(String text1, String text2) {
+
+
+        return f12(0, 0, text1, text2);
+
+
+    }
+
+    public static int f12(int i, int j, String text1, String text2) {
+
+
+        if (text1.equalsIgnoreCase(text2)) return 0;
+
+        if (i == text1.length()) return text2.length() - j; // insert remaining
+        if (j == text2.length()) return text1.length() - i; //delete remaning
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) return f12(i + 1, j + 1, text1, text2);
+
+
+        int replace = 1 + f12(i + 1, j + 1, text1, text2);
+
+        int delete = 1 + f12(i + 1, j, text1, text2);
+
+        int insert = 1 + f12(i, j + 1, text1, text2);
+        return Math.min(replace, Math.min(delete, insert));
 
 
     }
@@ -580,8 +645,12 @@ public class Recursion {
 
         // System.out.println(longestPalindromeSubString("cbbd"));
 
-       // System.out.println(countSubstrings("abc"));
-        System.out.println(longestPalindrome("babaddtattarrattatddetartrateedredividerb"));
+        // System.out.println(countSubstrings("abc"));
+        //  System.out.println(longestPalindrome("babaddtattarrattatddetartrateedredividerb"));
+
+        // System.out.println(minDistance("dinitrophenylhydrazine","benzalphenylhydrazone"));
+
+        System.out.println(minDistance("horse","ros"));
 
 
     }

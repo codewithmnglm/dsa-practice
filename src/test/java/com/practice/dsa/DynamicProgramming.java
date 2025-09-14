@@ -881,7 +881,15 @@ public class DynamicProgramming {
             Arrays.fill(dp[i], -1);   // fill each 1D row
         }
 
-        return f(len1 - 1, len2 - 1, text1, text2, dp);
+       // return f(len1 - 1, len2 - 1, text1, text2, dp);
+
+       // int max =longestCommonSubsequence("dinitrophenylhydrazine","benzalphenylhydrazone");
+
+        int max= f(len1 - 1, len2 - 1, text1, text2, dp);
+
+        System.out.println(max);
+
+        return Math.abs(len1-max);
 
 
     }
@@ -1210,6 +1218,42 @@ public class DynamicProgramming {
 
     }
 
+    public static int minDistance(String text1, String text2) {
+
+        int[][] dp = new int[text1.length()][text2.length()];
+
+        for (int[] row : dp)
+            Arrays.fill(row, -1);
+        return f12(0, 0, text1, text2,dp);
+
+
+    }
+
+    public static int f12(int i, int j, String text1, String text2,int [][]dp) {
+
+
+
+
+
+        if (i == text1.length()) return text2.length() - j; // insert remaining
+        if (j == text2.length()) return text1.length() - i; //delete remaning
+
+        if(dp[i][j]!=-1) return dp[i][j];
+
+        char a = text1.charAt(i);
+        char b = text2.charAt(j);
+
+        if (a == b) return dp[i][j]=f12(i + 1, j + 1, text1, text2,dp);
+
+        int replace = 1 + f12(i + 1, j + 1, text1, text2,dp);
+        int delete = 1 + f12(i + 1, j, text1, text2,dp);
+        int insert = 1 + f12(i, j + 1, text1, text2,dp);
+
+        return dp[i][j]=Math.min(replace, Math.min(delete, insert));
+
+
+    }
+
 
     public static void main(String[] args) {
 
@@ -1234,7 +1278,13 @@ public class DynamicProgramming {
         String s = "abccccdd";
         //  System.out.println(longestPalindrome("abcba"));
 
-        System.out.println(maxProduct(ar));
+       // System.out.println(maxProduct(ar));
+
+        System.out.println(longestCommonSubsequence("intention","execution"));
+
+
+
+
 
     }
 }
