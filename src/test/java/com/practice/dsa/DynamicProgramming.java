@@ -561,6 +561,7 @@ public class DynamicProgramming {
 
     }
 
+
     public static int minimumTotal(List<List<Integer>> triangle) {
         int m = triangle.size();
         int[] dp = new int[m];
