@@ -882,15 +882,15 @@ public class DynamicProgramming {
             Arrays.fill(dp[i], -1);   // fill each 1D row
         }
 
-       // return f(len1 - 1, len2 - 1, text1, text2, dp);
+        // return f(len1 - 1, len2 - 1, text1, text2, dp);
 
-       // int max =longestCommonSubsequence("dinitrophenylhydrazine","benzalphenylhydrazone");
+        // int max =longestCommonSubsequence("dinitrophenylhydrazine","benzalphenylhydrazone");
 
-        int max= f(len1 - 1, len2 - 1, text1, text2, dp);
+        int max = f(len1 - 1, len2 - 1, text1, text2, dp);
 
         System.out.println(max);
 
-        return Math.abs(len1-max);
+        return Math.abs(len1 - max);
 
 
     }
@@ -1194,17 +1194,17 @@ public class DynamicProgramming {
                 if (dp[i - 1] > 0) dp[i] = dp[i - 1] * nums[i];
 
                 else if (dp[i - 1] < 0) {
-                    negP = dp[i-1] * nums[i];
+                    negP = dp[i - 1] * nums[i];
                     dp[i] = nums[i];
                 }
 
             } else if (nums[i] < 0) {
 
-                if (dp[i - 1] < 0) dp[i] = nums[i] * Math.max(dp[i - 1] ,negP);
+                if (dp[i - 1] < 0) dp[i] = nums[i] * Math.max(dp[i - 1], negP);
 
                 else if (dp[i - 1] > 0) {
-                    negP = dp[i-1] * nums[i];
-                    dp[i] = Math.min(dp[i-1], negP);
+                    negP = dp[i - 1] * nums[i];
+                    dp[i] = Math.min(dp[i - 1], negP);
                 }
 
 
@@ -1224,43 +1224,73 @@ public class DynamicProgramming {
 
         for (int[] row : dp)
             Arrays.fill(row, -1);
-        return f12(0, 0, text1, text2,dp);
+        return f12(0, 0, text1, text2, dp);
 
 
     }
 
-    public static int f12(int i, int j, String text1, String text2,int [][]dp) {
-
-
-
+    public static int f12(int i, int j, String text1, String text2, int[][] dp) {
 
 
         if (i == text1.length()) return text2.length() - j; // insert remaining
         if (j == text2.length()) return text1.length() - i; //delete remaning
 
-        if(dp[i][j]!=-1) return dp[i][j];
+        if (dp[i][j] != -1) return dp[i][j];
 
         char a = text1.charAt(i);
         char b = text2.charAt(j);
 
-        if (a == b) return dp[i][j]=f12(i + 1, j + 1, text1, text2,dp);
+        if (a == b) return dp[i][j] = f12(i + 1, j + 1, text1, text2, dp);
 
-        int replace = 1 + f12(i + 1, j + 1, text1, text2,dp);
-        int delete = 1 + f12(i + 1, j, text1, text2,dp);
-        int insert = 1 + f12(i, j + 1, text1, text2,dp);
+        int replace = 1 + f12(i + 1, j + 1, text1, text2, dp);
+        int delete = 1 + f12(i + 1, j, text1, text2, dp);
+        int insert = 1 + f12(i, j + 1, text1, text2, dp);
 
-        return dp[i][j]=Math.min(replace, Math.min(delete, insert));
+        return dp[i][j] = Math.min(replace, Math.min(delete, insert));
 
 
     }
 
+    public static int minInsertions(String s) {
 
+        int[][] dp = new int[s.length()][s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            Arrays.fill(dp[i], -1);
+        }
+
+        int max = f24(s, 0, s.length() - 1, dp);
+
+        return s.length()-max;
+
+
+    }
+
+    public static int f24(String s, int i, int j, int[][] dp) {
+
+        if (i > j) return 0;
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        if (i == j) return 1;
+
+        char a = s.charAt(i);
+        char b = s.charAt(j);
+
+        if (a == b) dp[i][j] = 2 + f24(s, i + 1, j - 1, dp);
+        else {
+
+
+            dp[i][j] = Math.max(f24(s, i, j - 1, dp), f24(s, i + 1, j, dp));
+
+        }
+        return dp[i][j];
+    }
     public static void main(String[] args) {
 
 
         // int[] ar = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
 
-        int[] ar = new int[]{-2,3,-4};
+        int[] ar = new int[]{-2, 3, -4};
 
         // System.out.println(calculateCoinsTabulation(ar,11));
 
@@ -1278,12 +1308,11 @@ public class DynamicProgramming {
         String s = "abccccdd";
         //  System.out.println(longestPalindrome("abcba"));
 
-       // System.out.println(maxProduct(ar));
+        // System.out.println(maxProduct(ar));
 
-        System.out.println(longestCommonSubsequence("intention","execution"));
+        //  System.out.println(longestCommonSubsequence("intention","execution"));
 
-
-
+        System.out.println("Min Insertion " + minInsertions("mbadm"));
 
 
     }
