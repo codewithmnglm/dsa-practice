@@ -1260,7 +1260,7 @@ public class DynamicProgramming {
 
         int max = f24(s, 0, s.length() - 1, dp);
 
-        return s.length()-max;
+        return s.length() - max;
 
 
     }
@@ -1285,35 +1285,94 @@ public class DynamicProgramming {
         }
         return dp[i][j];
     }
+
+    public static int maxProfitLC121(int[] prices) {
+
+        int minPrice = prices[0];
+        int maxProfit = 0;
+
+        for (int i = 1; i < prices.length; i++) {
+
+            maxProfit = Math.max(prices[i] - minPrice, maxProfit);
+            minPrice = Math.min(minPrice, prices[i]);
+
+
+        }
+
+
+        return minPrice;
+    }
+
+    public static int maxProfitLC122(int[] prices) {
+
+        return buySell(prices,0,true);
+
+    }
+
+    public static int buySell(int [] prices,int i,boolean buy){
+
+
+        if(i==prices.length) return 0;
+
+        if(buy){
+
+            int b1= -prices[i]+ buySell(prices,i+1,false);
+            int b2= buySell(prices,i+1,true);
+
+            return Math.max(b1,b2);
+
+        }
+        else {
+            int s1= prices[i]+ buySell(prices,i+1,true);
+            int s2 =  buySell(prices,i+1,false);
+            return Math.max(s1,s2);
+
+        }
+
+
+    }
+    public static int maxDistance(int[] colors) {
+
+        int[] dp = new int[colors.length];
+        Arrays.fill(dp,-1);
+        return f123(0,colors.length-1,colors,dp);
+
+    }
+
+    public static int f123(int i,int j, int[]colors,int[]dp){
+
+        if(j==i) return 0;
+        if(dp[i]!=-1) return dp[i];
+
+        if(colors[i]!=colors[j]) return Math.abs(i-j);
+        else{
+
+            int a1= f123(i+1,j,colors,dp);
+            int a2= f123(i,j-1,colors,dp);
+            dp[i]= Math.max(a1,a2);
+
+            return dp[i];
+        }
+
+    }
+
+
+
     public static void main(String[] args) {
 
 
         // int[] ar = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
 
-        int[] ar = new int[]{-2, 3, -4};
-
-        // System.out.println(calculateCoinsTabulation(ar,11));
+        int[] ar = new int[]{7,1,5,4};
 
 
-        // System.out.println(longestCommonSubsequence("abcde", "ace"));
 
 
-        // System.out.println(printLCS("abcde", "ace"));
 
 
-        // System.out.println(printLCSubString("abcdxxyyz","xxyyzabcd"));
 
-        //  System.out.println(longestPalindromeSubsequence("euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew"));
-        // System.out.println(printlongestCommonSubstringTabulation("abcde","abfce"));
-        String s = "abccccdd";
-        //  System.out.println(longestPalindrome("abcba"));
-
-        // System.out.println(maxProduct(ar));
-
-        //  System.out.println(longestCommonSubsequence("intention","execution"));
-
-        System.out.println("Min Insertion " + minInsertions("mbadm"));
 
 
     }
+
 }

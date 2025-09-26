@@ -621,6 +621,30 @@ public class Recursion {
         return true;
     }
 
+    public static int maxDistance(int[] colors) {
+
+
+        return f123(0, colors.length - 1, colors);
+
+    }
+
+    public static int f123(int i, int j, int[] colors) {
+
+        if (j == i) return 0;
+
+
+        if (colors[i] != colors[j]) return Math.abs(i - j);
+        else {
+
+            int a1 = f123(i + 1, j, colors);
+            int a2 = f123(i, j - 1, colors);
+
+
+            return Math.max(a1, a2);
+        }
+
+    }
+
 
     public static void main(String[] args) {
 
@@ -650,7 +674,11 @@ public class Recursion {
 
         // System.out.println(minDistance("dinitrophenylhydrazine","benzalphenylhydrazone"));
 
-        System.out.println(minDistance("horse","ros"));
+        // System.out.println(minDistance("horse","ros"));
+
+        int[] ar2 = new int[]{48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 73, 48, 48, 48, 73, 48, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48};
+
+        System.out.println(maxDistance(ar2));
 
 
     }
