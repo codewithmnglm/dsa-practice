@@ -1309,6 +1309,7 @@ public class DynamicProgramming {
 
     }
 
+
     public static int buySell(int [] prices,int i,boolean buy){
 
 
@@ -1323,7 +1324,7 @@ public class DynamicProgramming {
 
         }
         else {
-            int s1= prices[i]+ buySell(prices,i+1,true);
+            int s1= prices[i]-3+ buySell(prices,i+1,true);
             int s2 =  buySell(prices,i+1,false);
             return Math.max(s1,s2);
 
@@ -1363,7 +1364,11 @@ public class DynamicProgramming {
 
         // int[] ar = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
 
-        int[] ar = new int[]{7,1,5,4};
+        int[] ar = new int[]{1,3,7,5,10,3};
+
+       // System.out.println(maxProfitLC122(ar));
+
+
 
 
 
