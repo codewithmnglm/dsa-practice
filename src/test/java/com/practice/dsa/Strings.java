@@ -2,6 +2,7 @@ package com.practice.dsa;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class Strings {
 
@@ -89,7 +90,7 @@ public class Strings {
 
     }
 
-    public static  int findMinimumOperations(String s1, String s2, String s3) {
+    public static int findMinimumOperations(String s1, String s2, String s3) {
 
         if (s1.charAt(0) != s2.charAt(0) || s2.charAt(0) != s3.charAt(0)) return -1;
 
@@ -122,12 +123,85 @@ public class Strings {
 
     }
 
+    public static boolean backspaceCompare(String s, String t) {
+
+        Stack<Character> st = new Stack();
+
+        for (int i = 0; i < s.length(); i++) {
+
+            char p = s.charAt(i);
+
+            if (p == '#') {
+                if (!st.isEmpty()) st.pop();
+            } else {
+                st.push(p);
+            }
+
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        if (!st.isEmpty()) for (char p : st) sb.append(p);
+
+        Stack<Character> st2 = new Stack();
+
+        for (int i = 0; i < t.length(); i++) {
+
+            char p = t.charAt(i);
+
+            if (p == '#') {
+                if (!st2.isEmpty()) st2.pop();
+            } else {
+                st2.push(p);
+            }
+
+        }
+
+        StringBuilder sb1 = new StringBuilder();
+
+        if (!st2.isEmpty()) for (char p : st2) sb1.append(p);
+
+
+        return sb.toString().contentEquals(sb1);
+
+    }
+
+    public static String removeStars(String s) {
+
+        Stack<Character> st = new Stack();
+
+        for(int i=0;i<s.length();i++){
+
+            char p = s.charAt(i);
+
+            if (p == '*') {
+                if (!st.isEmpty()) st.pop();
+            } else {
+                st.push(p);
+            }
+
+
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for(char p:st) sb.append(p);
+
+        return sb.toString();
+
+    }
+
+
     public static void main(String[] args) {
 
 
-       // System.out.println(minInsertions("zjveiiwvc")); //z j e w c - ii vv--
+        // System.out.println(minInsertions("zjveiiwvc")); //z j e w c - ii vv--
 
-        System.out.println(findMinimumOperations("a","aabc","a"));
+        // System.out.println(findMinimumOperations("a","aabc","a"));
+
+       // System.out.println(backspaceCompare("a##c", "#a#c"));
+
+        System.out.println(removeStars("leet**cod*e"));
 
     }
 
