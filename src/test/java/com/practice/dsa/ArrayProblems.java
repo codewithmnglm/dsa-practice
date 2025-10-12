@@ -77,10 +77,13 @@ public class ArrayProblems {
 
     }
 
+
     public static void main(String[] args) {
 
-        int[] ar = new int[]{6,6,6,6,6,6,6,6,6,19,19,6,6};
+        int[] ar = new int[]{1,2,3,4,5,6,1};
 
-        System.out.println(maxDistance(ar));
+        //System.out.println(maxDistance(ar));
+
+       // System.out.println(maxScore(ar,3));
     }
 }

@@ -407,16 +407,64 @@ public class SlidingWindow {
 
     }
 
+    public static int subarraySum(int[] nums, int k) {
+
+        int l=0,r=0,sum=0,maxSum=0;
+
+        while(r<nums.length){
+            sum=sum+nums[r];
+           while(sum>k){
+               sum=sum-nums[l];
+               l++;
+           }
+          maxSum= Math.max(maxSum,r-l+1);
+           r++;
+
+
+
+
+        }
+
+
+        return maxSum;
+    }
+
+    public static int maxScoreLC1423(int[] cardPoints, int k) {
+
+        int sum=0;
+
+        for (int i=0;i<k;i++)  sum=sum+cardPoints[i];
+        int maxSum= sum;
+
+        int j=cardPoints.length-1;
+        int i=k-1;
+
+        while(i>=0){
+
+            sum=sum-cardPoints[i]+cardPoints[j];
+            maxSum= Math.max(sum,maxSum);
+            i--;
+            j--;
+        }
+
+
+
+
+        return maxSum;
+    }
+
 
 
     public static void main(String[] args) {
 
 
-        // int ar[] = {-2,-12,-1,-10};
+        int[] ar = {2,5,1,10,10}; int k= 14;
 
 
-        System.out.println(longestPalindrome5("eabcb"));
+       // System.out.println(longestPalindrome5("eabcb"));
 
+
+        System.out.println(subarraySum(ar, k));
 
     }
 }
