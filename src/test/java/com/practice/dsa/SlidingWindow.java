@@ -493,16 +493,14 @@ public class SlidingWindow {
     public static int LC3364(List<Integer> nums, int l, int r) {
 
 
-        int minSum=Integer.MAX_VALUE;
+        int minSum = Integer.MAX_VALUE;
 
-        for(int i=0;i<nums.size();++i)
-        {
-            int curr=0;
-            for(int j=i;j<nums.size();++j)
-            {
-                curr+=nums.get(j);
-                int len = j-i+1;
-                if(len>=l && len<=r && curr>0) minSum=Math.min(minSum,curr);
+        for (int i = 0; i < nums.size(); ++i) {
+            int curr = 0;
+            for (int j = i; j < nums.size(); ++j) {
+                curr += nums.get(j);
+                int len = j - i + 1;
+                if (len >= l && len <= r && curr > 0) minSum = Math.min(minSum, curr);
                 if (len > r) break;
             }
         }
@@ -511,6 +509,35 @@ public class SlidingWindow {
         return minSum != Integer.MAX_VALUE ? minSum : -1;
 
 
+    }
+
+    public static void LC904(int[] fruits) {
+
+        int l=0,r=0,maxLen=0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+
+        while(r<fruits.length){
+
+            hm.put(fruits[r], hm.getOrDefault(fruits[r], 0) + 1);
+
+           while(hm.size()>2){
+
+               hm.put(fruits[l], hm.get(fruits[l]) - 1);
+
+               if (hm.get(fruits[l]) == 0) {
+                   hm.remove(fruits[l]);
+               }
+               l++;
+
+
+           }
+            maxLen = Math.max(maxLen, r - l + 1);
+            r++;
+
+
+
+        }
+        System.out.println(maxLen);
 
     }
 
@@ -518,10 +545,12 @@ public class SlidingWindow {
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{3, -2, 1, 4};
+        int[] ar = new int[]{1,2,3,2,2};
         int k = 3;
 
-       // System.out.println(LC3364(ar, 2, 3));
+        // System.out.println(LC3364(ar, 2, 3));
+
+        LC904(ar);
 
     }
 }
