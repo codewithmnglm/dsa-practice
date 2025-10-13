@@ -79,7 +79,7 @@ public class ArrayProblems {
 
     public static void longestOnesLC1004(int[] nums, int k) {
 
-        int zeroCount=0;
+        int zeroCount;
         int maxCount=0;
 
         for(int i=0;i<nums.length;i++){
@@ -90,10 +90,8 @@ public class ArrayProblems {
 
                 if(nums[j]==0) zeroCount++;
 
-                if(zeroCount>k){
-                    break;
-                }
-                //System.out.print(nums[j] + ",");
+                if(zeroCount>k) break;
+
                 count++;
 
 
@@ -108,11 +106,11 @@ public class ArrayProblems {
 
     public static void main(String[] args) {
 
-        int[] ar = new int[]{1,1,1,0,0,0,1,1,1,1,0};
+        int[] ar = new int[]{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1};
 
         //System.out.println(maxDistance(ar));
 
        // System.out.println(maxScore(ar,3));
-        longestOnesLC1004(ar,2);
+        longestOnesLC1004(ar,3);
     }
 }
