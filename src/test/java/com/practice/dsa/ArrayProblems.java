@@ -77,13 +77,42 @@ public class ArrayProblems {
 
     }
 
+    public static void longestOnesLC1004(int[] nums, int k) {
+
+        int zeroCount=0;
+        int maxCount=0;
+
+        for(int i=0;i<nums.length;i++){
+
+            zeroCount=0;
+            int count=0;
+            for(int j=i;j<nums.length;j++){
+
+                if(nums[j]==0) zeroCount++;
+
+                if(zeroCount>k){
+                    break;
+                }
+                //System.out.print(nums[j] + ",");
+                count++;
+
+
+            }
+            maxCount= Math.max(maxCount,count);
+
+        }
+
+        System.out.println("maxCout "+ maxCount);
+    }
+
 
     public static void main(String[] args) {
 
-        int[] ar = new int[]{1,2,3,4,5,6,1};
+        int[] ar = new int[]{1,1,1,0,0,0,1,1,1,1,0};
 
         //System.out.println(maxDistance(ar));
 
        // System.out.println(maxScore(ar,3));
+        longestOnesLC1004(ar,2);
     }
 }
