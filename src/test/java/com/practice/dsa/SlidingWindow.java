@@ -231,18 +231,18 @@ public class SlidingWindow {
 
     public static int lengthOfLongestSubstrings(String s) {
 
-        if(s == null || s.length() == 0)
+        if (s == null || s.length() == 0)
             return 0;
 
         int left = 0;
         int maxLength = 0;
         Set<Character> charSet = new HashSet<>();
 
-        for (int right = 0; right < s.length(); right++){
+        for (int right = 0; right < s.length(); right++) {
 
             char currentChar = s.charAt(right);
 
-            while (charSet.contains(currentChar)){
+            while (charSet.contains(currentChar)) {
                 char charLeft = s.charAt(left);
                 charSet.remove(charLeft);
                 left = left + 1;
@@ -274,7 +274,6 @@ public class SlidingWindow {
         }
         return s;
     }
-
 
     public static String longestPalindrome(String s) {
 
@@ -369,16 +368,15 @@ public class SlidingWindow {
         }
     }
 
-
     public static boolean checkInclusion(String s1, String s2) {
 
         if (s1.length() > s2.length()) return false;
-        HashMap<Character,Integer> hm = new HashMap<>();
-        for(char c: s1.toCharArray()) hm.put(c, hm.getOrDefault(c, 0) + 1);
+        HashMap<Character, Integer> hm = new HashMap<>();
+        for (char c : s1.toCharArray()) hm.put(c, hm.getOrDefault(c, 0) + 1);
 
-        for (int i = 0; i < s2.length() - s1.length()+1; i++) {
+        for (int i = 0; i < s2.length() - s1.length() + 1; i++) {
 
-            if(hm.containsKey(s2.charAt(i))){
+            if (hm.containsKey(s2.charAt(i))) {
                 boolean flag = checkAnagram(s1, s2.substring(i, i + s1.length()));
                 if (flag) {
                     return true;
@@ -390,17 +388,17 @@ public class SlidingWindow {
 
     public static boolean checkAnagram(String a, String b) {
 
-        int [] alpha= new int[26];
+        int[] alpha = new int[26];
         for (char c : b.toCharArray()) {
-            alpha[c-'a']++;
+            alpha[c - 'a']++;
         }
 
         for (char c : a.toCharArray()) {
-            alpha[c-'a']--;
+            alpha[c - 'a']--;
         }
 
-        for (int i=0;i<26;i++) {
-            if(alpha[i]!=0) return false;
+        for (int i = 0; i < 26; i++) {
+            if (alpha[i] != 0) return false;
         }
         return true;
 
@@ -409,18 +407,16 @@ public class SlidingWindow {
 
     public static int subarraySum(int[] nums, int k) {
 
-        int l=0,r=0,sum=0,maxSum=0;
+        int l = 0, r = 0, sum = 0, maxSum = 0;
 
-        while(r<nums.length){
-            sum=sum+nums[r];
-           while(sum>k){
-               sum=sum-nums[l];
-               l++;
-           }
-          maxSum= Math.max(maxSum,r-l+1);
-           r++;
-
-
+        while (r < nums.length) {
+            sum = sum + nums[r];
+            while (sum > k) {
+                sum = sum - nums[l];
+                l++;
+            }
+            maxSum = Math.max(maxSum, r - l + 1);
+            r++;
 
 
         }
@@ -431,40 +427,37 @@ public class SlidingWindow {
 
     public static int maxScoreLC1423(int[] cardPoints, int k) {
 
-        int sum=0;
+        int sum = 0;
 
-        for (int i=0;i<k;i++)  sum=sum+cardPoints[i];
-        int maxSum= sum;
+        for (int i = 0; i < k; i++) sum = sum + cardPoints[i];
+        int maxSum = sum;
 
-        int j=cardPoints.length-1;
-        int i=k-1;
+        int j = cardPoints.length - 1;
+        int i = k - 1;
 
-        while(i>=0){
+        while (i >= 0) {
 
-            sum=sum-cardPoints[i]+cardPoints[j];
-            maxSum= Math.max(sum,maxSum);
+            sum = sum - cardPoints[i] + cardPoints[j];
+            maxSum = Math.max(sum, maxSum);
             i--;
             j--;
         }
 
 
-
-
         return maxSum;
     }
-
-
 
     public static void main(String[] args) {
 
 
-        int[] ar = {2,5,1,10,10}; int k= 14;
+        int[] ar = {2, 5, 1, 10, 10};
+        int k = 14;
 
 
-       // System.out.println(longestPalindrome5("eabcb"));
+        // System.out.println(longestPalindrome5("eabcb"));
 
 
-        System.out.println(subarraySum(ar, k));
+        // System.out.println(subarraySum(ar, k));
 
     }
 }
