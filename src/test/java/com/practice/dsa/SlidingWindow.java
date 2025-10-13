@@ -447,19 +447,66 @@ public class SlidingWindow {
         return maxSum;
     }
 
+    public static int longestOnesLC1004(int[] nums, int k) {
+        int l = 0, r = 0, maxLen = 0;
+        int zeroCount = 0;
+
+        while (r < nums.length) {
+
+            if (nums[r] == 0) zeroCount++;
+
+            while (zeroCount > k) {
+                if (nums[l] == 0) zeroCount--;
+                l++;
+            }
+
+            maxLen = Math.max(maxLen, r - l + 1);
+            r++;
+
+
+        }
+
+        return maxLen;
+
+    }
+
+    public static int LC209(int target, int[] nums) {
+        int minLen=Integer.MAX_VALUE;
+        int l=0,r=0,sum=0;
+
+        while(r<nums.length){
+
+            sum=sum+nums[r];
+
+            while(sum>=target){
+                minLen= Math.min(minLen,r-l+1);
+                sum=sum-nums[l++];
+            }
+            r++;
+
+
+        }
+        return minLen==Integer.MAX_VALUE?0:minLen;
+
+    }
 
 
     public static void main(String[] args) {
 
 
-        int[] ar = {2, 5, 1, 10, 10};
-        int k = 14;
+        int[] ar = {1,1,1,1,1,1,1,1};
+        int k = 3;
 
 
         // System.out.println(longestPalindrome5("eabcb"));
 
 
         // System.out.println(subarraySum(ar, k));
+
+       // System.out.println(longestOnesLC1004(ar, k));
+
+
+        System.out.println(LC209(14,ar));
 
     }
 }
