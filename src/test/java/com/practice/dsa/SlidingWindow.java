@@ -471,22 +471,46 @@ public class SlidingWindow {
     }
 
     public static int LC209(int target, int[] nums) {
-        int minLen=Integer.MAX_VALUE;
-        int l=0,r=0,sum=0;
+        int minLen = Integer.MAX_VALUE;
+        int l = 0, r = 0, sum = 0;
 
-        while(r<nums.length){
+        while (r < nums.length) {
 
-            sum=sum+nums[r];
+            sum = sum + nums[r];
 
-            while(sum>=target){
-                minLen= Math.min(minLen,r-l+1);
-                sum=sum-nums[l++];
+            while (sum >= target) {
+                minLen = Math.min(minLen, r - l + 1);
+                sum = sum - nums[l++];
             }
             r++;
 
 
         }
-        return minLen==Integer.MAX_VALUE?0:minLen;
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+
+    }
+
+    public static int LC3364(List<Integer> nums, int l, int r) {
+
+
+        int minSum=Integer.MAX_VALUE;
+
+        for(int i=0;i<nums.size();++i)
+        {
+            int curr=0;
+            for(int j=i;j<nums.size();++j)
+            {
+                curr+=nums.get(j);
+                int len = j-i+1;
+                if(len>=l && len<=r && curr>0) minSum=Math.min(minSum,curr);
+                if (len > r) break;
+            }
+        }
+
+
+        return minSum != Integer.MAX_VALUE ? minSum : -1;
+
+
 
     }
 
@@ -494,19 +518,10 @@ public class SlidingWindow {
     public static void main(String[] args) {
 
 
-        int[] ar = {1,1,1,1,1,1,1,1};
+        int[] ar = new int[]{3, -2, 1, 4};
         int k = 3;
 
-
-        // System.out.println(longestPalindrome5("eabcb"));
-
-
-        // System.out.println(subarraySum(ar, k));
-
-       // System.out.println(longestOnesLC1004(ar, k));
-
-
-        System.out.println(LC209(14,ar));
+       // System.out.println(LC3364(ar, 2, 3));
 
     }
 }

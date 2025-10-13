@@ -2,30 +2,30 @@ package com.practice.dsa;
 
 public class ArrayProblems {
 
-    public static int findlargest(int[]arr,int i){
-        int max =Integer.MIN_VALUE;
+    public static int findlargest(int[] arr, int i) {
+        int max = Integer.MIN_VALUE;
 
-        for(int j=i;j<arr.length;j++){
+        for (int j = i; j < arr.length; j++) {
 
-            max= Math.max(max,arr[j]);
+            max = Math.max(max, arr[j]);
 
         }
         return max;
 
 
-
     }
+
     public int[] replaceElements(int[] arr) {
 
         if (arr.length == 1) return new int[]{-1};
 
-        int []res= new int [arr.length];
+        int[] res = new int[arr.length];
 
-        res[arr.length-1]=-1;
+        res[arr.length - 1] = -1;
 
-        for(int i=0;i<arr.length-1;i++){
+        for (int i = 0; i < arr.length - 1; i++) {
 
-            res[i]=findlargest(arr,i+1);
+            res[i] = findlargest(arr, i + 1);
 
         }
 
@@ -54,18 +54,16 @@ public class ArrayProblems {
     public static int maxDistance(int[] colors) {
 
         int maxValue = 0;
-        int i=0,j=colors.length-1;
-        while(j>i){
+        int i = 0, j = colors.length - 1;
+        while (j > i) {
 
-            if(colors[j]!=colors[i]) {
-                maxValue= Math.abs(i-j);
+            if (colors[j] != colors[i]) {
+                maxValue = Math.abs(i - j);
                 break;
-            }
-            else if(colors[j-1]!=colors[i] || colors[j]!=colors[i+1]) {
-                maxValue= Math.abs(i-j-1);
+            } else if (colors[j - 1] != colors[i] || colors[j] != colors[i + 1]) {
+                maxValue = Math.abs(i - j - 1);
                 break;
-            }
-            else{
+            } else {
                 i++;
                 j--;
             }
@@ -80,37 +78,62 @@ public class ArrayProblems {
     public static void longestOnesLC1004(int[] nums, int k) {
 
         int zeroCount;
-        int maxCount=0;
+        int maxCount = 0;
 
-        for(int i=0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
 
-            zeroCount=0;
-            int count=0;
-            for(int j=i;j<nums.length;j++){
+            zeroCount = 0;
+            int count = 0;
+            for (int j = i; j < nums.length; j++) {
 
-                if(nums[j]==0) zeroCount++;
+                if (nums[j] == 0) zeroCount++;
 
-                if(zeroCount>k) break;
+                if (zeroCount > k) break;
 
                 count++;
 
 
             }
-            maxCount= Math.max(maxCount,count);
+            maxCount = Math.max(maxCount, count);
 
         }
 
-        System.out.println("maxCout "+ maxCount);
+        System.out.println("maxCout " + maxCount);
+    }
+
+    public static int minimumSumSubarray(int[] nums, int l, int r) {
+
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+
+            int sum = 0;
+
+            for (int j = i; j < nums.length; j++) {
+
+               /* int len = nums.length - i;
+                if (len >= l && len <= r) {
+                    sum = sum + nums[i];
+                } else break;*/
+                System.out.print("," + nums[j]);
+
+            }
+            // if (sum > 0) count++;
+            System.out.println();
+
+        }
+        return count > 0 ? count : -1;
+
     }
 
 
     public static void main(String[] args) {
 
-        int[] ar = new int[]{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1};
+        int[] ar = new int[]{-2, 2, -3, 1};
 
         //System.out.println(maxDistance(ar));
 
-       // System.out.println(maxScore(ar,3));
-        longestOnesLC1004(ar,3);
+        // System.out.println(maxScore(ar,3));
+        // longestOnesLC1004(ar, 3);
+        minimumSumSubarray(ar, 2, 3);
     }
 }
