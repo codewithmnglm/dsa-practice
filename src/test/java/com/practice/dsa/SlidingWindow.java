@@ -513,27 +513,26 @@ public class SlidingWindow {
 
     public static void LC904(int[] fruits) {
 
-        int l=0,r=0,maxLen=0;
-        HashMap<Integer,Integer> hm = new HashMap<>();
+        int l = 0, r = 0, maxLen = 0;
+        HashMap<Integer, Integer> hm = new HashMap<>();
 
-        while(r<fruits.length){
+        while (r < fruits.length) {
 
             hm.put(fruits[r], hm.getOrDefault(fruits[r], 0) + 1);
 
-           while(hm.size()>2){
+            while (hm.size() > 2) {
 
-               hm.put(fruits[l], hm.get(fruits[l]) - 1);
+                hm.put(fruits[l], hm.get(fruits[l]) - 1);
 
-               if (hm.get(fruits[l]) == 0) {
-                   hm.remove(fruits[l]);
-               }
-               l++;
+                if (hm.get(fruits[l]) == 0) {
+                    hm.remove(fruits[l]);
+                }
+                l++;
 
 
-           }
+            }
             maxLen = Math.max(maxLen, r - l + 1);
             r++;
-
 
 
         }
@@ -541,16 +540,117 @@ public class SlidingWindow {
 
     }
 
+    public static int LC3(String s) {
+        int maxLen = 0;
+        int l = 0, r = 0;
+        LinkedHashSet<Character> lhs = new LinkedHashSet<>();
+
+        while (r < s.length()) {
+            char p = s.charAt(r);
+
+            while (lhs.contains(p)) {
+                lhs.remove(s.charAt(l));
+                l++;
+            }
+
+            lhs.add(p);
+            maxLen = Math.max(maxLen, r - l + 1);
+            r++;
+        }
+
+
+        return maxLen;
+    }
+
+    public static int kDistinctChar(String s, int k) {
+
+        int l = 0, r = 0, maxLen = 0;
+
+        HashMap<Character, Integer> hm = new HashMap<>();
+
+        while (r < s.length()) {
+
+            char p = s.charAt(r);
+            hm.put(p, hm.getOrDefault(p, 0) + 1);
+
+            if (hm.size() > k) {
+
+                while (hm.size() > k) {
+
+                    char a = s.charAt(l);
+
+                    hm.put(a, hm.get(a) - 1);
+
+                    if (hm.get(a) == 0) hm.remove(a);
+
+                    l++;
+
+                }
+
+            }
+
+            maxLen = Math.max(maxLen, r - l + 1);
+            r++;
+
+
+        }
+        return maxLen;
+    }
+
+    public static int LC1358BF(String s){
+
+        int n = s.length();
+        int count=0;
+
+        for (int start = 0; start < n; start++) {
+            for (int end = start + 1; end <= n; end++) {
+                String sub = s.substring(start, end);
+                if(sub.length()<3) continue;
+                else{
+                    if(sub.contains("a") && sub.contains("b") && sub.contains("c")) count++;
+                }
+            }
+        }
+        return count;
+    }
+    public static int LC1358(String s){
+
+        int count=0,r=0,l=0;
+        int []freq= new int[3];
+
+        while(r<s.length()){
+
+            char p= s.charAt(r);
+
+            freq[p-'a']++;
+            while(freq[0]>0 && freq[1]>0 && freq[2]>0){
+
+                count=count+s.length()-r;
+                freq[s.charAt(l)-'a']--;
+                l++;
+
+            }
+            r++;
+
+
+
+
+        }
+
+
+
+        return count;
+    }
+
 
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{1,2,3,2,2};
+        int[] ar = new int[]{1, 2, 3, 2, 2};
         int k = 3;
 
-        // System.out.println(LC3364(ar, 2, 3));
-
-        LC904(ar);
+       // System.out.println(kDistinctChar("abcddefg", 3));
+        System.out.println(LC1358("abcabc"));
 
     }
 }
