@@ -613,6 +613,7 @@ public class SlidingWindow {
         }
         return count;
     }
+
     public static int LC1358(String s){
 
         int count=0,r=0,l=0;
