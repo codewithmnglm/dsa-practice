@@ -645,6 +645,27 @@ public class Recursion {
 
     }
 
+    public static int LC11(int []height){
+
+        return f007(height,0,height.length-1);
+
+
+    }
+
+    public static int f007(int []height,int i,int j){
+
+        if(i>=j) return 0;
+
+        int area = (j-i) * Math.min(height[i],height[j]);
+
+        if (height[i] < height[j]) {
+            return Math.max(area, f007(height, i + 1, j));
+        } else {
+            return Math.max(area, f007(height, i, j - 1));
+        }
+
+    }
+
 
     public static void main(String[] args) {
 

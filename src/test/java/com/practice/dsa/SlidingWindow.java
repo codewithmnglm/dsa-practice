@@ -643,15 +643,43 @@ public class SlidingWindow {
         return count;
     }
 
+    public static int LC11(int []height){
+
+        // return f007(height,0,height.length-1);
+
+        int i=0,j=height.length-1;
+        int maxProd= 1;
+
+        while(j>i){
+
+            int prod= (j-i) * Math.min(height[i],height[j]);
+
+            int p1 = Math.min(height[i],height[j-1]) * ((j-1)-i);
+
+            int p2 = Math.min(height[i+1],height[j]) * ((j)-(i+1));
+
+            maxProd= Math.max(prod,Math.max(p2,p1));
+            i++;
+            j--;
+
+
+
+        }
+
+        return maxProd;
+    }
+
 
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{1, 2, 3, 2, 2};
+        int[] ar = new int[]{1,8,6,2,5,4,8,3,7};
         int k = 3;
 
        // System.out.println(kDistinctChar("abcddefg", 3));
-        System.out.println(LC1358("abcabc"));
+       // System.out.println(LC1358("abcabc"));
+
+        System.out.println(LC11(ar));
 
     }
 }
