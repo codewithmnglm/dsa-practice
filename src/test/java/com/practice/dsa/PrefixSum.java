@@ -57,10 +57,54 @@ public class PrefixSum {
         return count;
     }
 
+    public static int longestSubarrayWithSumK(int[] nums, int k) {
+
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        int maxLen = 0;
+        int sum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            sum = sum + nums[i];
+
+            if (sum == k) maxLen = Math.max(maxLen, i + 1);
+
+            else if (hm.containsKey(sum - k)) maxLen = Math.max(maxLen, i - hm.get(sum - k));
+
+            else hm.put(sum, i);
+        }
+        return maxLen;
+    }
+
+    public static void printSubArrays(int[] nums, int p) {
+
+        int maxLen = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            for (int j = i; j < nums.length; j++) {
+                int sum = 0, count = 0;
+                for (int k = i; k <= j; k++) {
+
+                    System.out.print(nums[k] + ",");
+                    count++;
+                    sum = sum + nums[k];
+                    if (sum == p) maxLen = Math.max(maxLen, count);
+
+                }
+                System.out.println();
+
+
+            }
+        }
+        System.out.println(maxLen);
+
+    }
+
     public static void main(String[] args) {
 
-        int[] ar = {10, 2, -2, -20, 10};
-        System.out.println(subarraySumLC560(ar, -10));
+        int[] ar = {10, -10, 20, 30};
+
+        System.out.println(longestSubarrayWithSumK(ar, 5));
 
     }
 }
