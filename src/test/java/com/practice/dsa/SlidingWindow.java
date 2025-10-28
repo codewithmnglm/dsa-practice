@@ -669,6 +669,41 @@ public class SlidingWindow {
         return maxProd;
     }
 
+    public static String minWindow(String s, String t) {
+
+        if (t.length() > s.length()) return "";
+
+        String finalRes="";
+        int l = 0, r = 0, maxLen = 0;
+
+        HashMap<Character, Integer> hm = new HashMap<>();
+
+        for(char p : t.toCharArray()) hm.put(p, hm.getOrDefault(p, 0) + 1);
+
+
+        while (r < s.length()) {
+
+            char p = s.charAt(r);
+
+            if(hm.containsKey(p)){
+                hm.put(p,hm.get(p)-1);
+                if (hm.get(p) == 0) hm.remove(p);
+               // r++;
+            }
+
+           if(hm.isEmpty()){
+               String res= s.substring(l,r+1);
+               System.out.println(res);
+               l=r;
+           }
+           r++;
+
+        }
+
+        return finalRes;
+
+    }
+
 
     public static void main(String[] args) {
 
@@ -679,7 +714,8 @@ public class SlidingWindow {
        // System.out.println(kDistinctChar("abcddefg", 3));
        // System.out.println(LC1358("abcabc"));
 
-        System.out.println(LC11(ar));
+       // System.out.println(LC11(ar));
+        System.out.println(minWindow("ADOBECODEBANC","ABC"));
 
     }
 }

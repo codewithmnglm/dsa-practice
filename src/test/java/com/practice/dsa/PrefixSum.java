@@ -100,6 +100,28 @@ public class PrefixSum {
 
     }
 
+    public int pivotIndex(int[] nums) {
+
+        int totalSum = 0;
+
+        for (int p : nums) totalSum = totalSum + p;
+
+        int leftSum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            if (leftSum == totalSum-nums[i]-leftSum) return i;
+
+            leftSum = leftSum + nums[i];
+
+
+        }
+
+
+        return -1;
+
+    }
+
     public static void main(String[] args) {
 
         int[] ar = {10, -10, 20, 30};
