@@ -758,6 +758,41 @@ public class SlidingWindow {
 
     }
 
+    public static int longestKSubstr(String s, int k) {
+
+        int maxLen = 0;
+        int l = 0, r = 0;
+
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        while (r < s.length()) {
+
+            char p = s.charAt(r);
+
+            while (map.size() > k) {
+
+                char m = s.charAt(l);
+
+                    map.put(m, map.get(m) - 1);
+                    l++;
+
+
+                if (map.get(m) == 0) map.remove(m);
+
+            }
+            map.put(p, map.getOrDefault(p, 0) + 1);
+            if (map.size() == k) {
+                maxLen = Math.max(maxLen, r - l + 1);
+            }
+            r++;
+
+
+        }
+
+
+        return maxLen > 0 ? maxLen : -1;
+    }
+
 
     public static void main(String[] args) {
 
@@ -771,6 +806,6 @@ public class SlidingWindow {
         // System.out.println(LC11(ar));
         // System.out.println(minWindow("ADOBECODEBANC", "ABC"));
 
-
+        System.out.println(longestKSubstr("aabacbebebe", 3));
     }
 }
