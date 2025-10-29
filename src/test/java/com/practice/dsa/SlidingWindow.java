@@ -597,71 +597,67 @@ public class SlidingWindow {
         return maxLen;
     }
 
-    public static int LC1358BF(String s){
+    public static int LC1358BF(String s) {
 
         int n = s.length();
-        int count=0;
+        int count = 0;
 
         for (int start = 0; start < n; start++) {
             for (int end = start + 1; end <= n; end++) {
                 String sub = s.substring(start, end);
-                if(sub.length()<3) continue;
-                else{
-                    if(sub.contains("a") && sub.contains("b") && sub.contains("c")) count++;
+                if (sub.length() < 3) continue;
+                else {
+                    if (sub.contains("a") && sub.contains("b") && sub.contains("c")) count++;
                 }
             }
         }
         return count;
     }
 
-    public static int LC1358(String s){
+    public static int LC1358(String s) {
 
-        int count=0,r=0,l=0;
-        int []freq= new int[3];
+        int count = 0, r = 0, l = 0;
+        int[] freq = new int[3];
 
-        while(r<s.length()){
+        while (r < s.length()) {
 
-            char p= s.charAt(r);
+            char p = s.charAt(r);
 
-            freq[p-'a']++;
-            while(freq[0]>0 && freq[1]>0 && freq[2]>0){
+            freq[p - 'a']++;
+            while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) {
 
-                count=count+s.length()-r;
-                freq[s.charAt(l)-'a']--;
+                count = count + s.length() - r;
+                freq[s.charAt(l) - 'a']--;
                 l++;
 
             }
             r++;
 
 
-
-
         }
-
 
 
         return count;
     }
 
-    public static int LC11(int []height){
+    public static int LC11(int[] height) {
 
         // return f007(height,0,height.length-1);
 
-        int i=0,j=height.length-1;
-        int maxProd= 1;
+        int i = 0, j = height.length - 1;
+        int maxProd = 1;
 
-        while(j>i){
+        while (j > i) {
 
-            int prod= (j-i) * Math.min(height[i],height[j]);
+            int prod = (j - i) * Math.min(height[i], height[j]);
 
-            int p1 = Math.min(height[i],height[j-1]) * ((j-1)-i);
+            int p1 = Math.min(height[i], height[j - 1]) * ((j - 1) - i);
 
-            int p2 = Math.min(height[i+1],height[j]) * ((j)-(i+1));
+            int p2 = Math.min(height[i + 1], height[j]) * ((j) - (i + 1));
 
-            maxProd= Math.max(prod,Math.max(p2,p1));
+            maxProd = Math.max(prod, Math.max(p2, p1));
             i++;
             j--;
-
 
 
         }
@@ -673,30 +669,30 @@ public class SlidingWindow {
 
         if (t.length() > s.length()) return "";
 
-        String finalRes="";
+        String finalRes = "";
         int l = 0, r = 0, maxLen = 0;
 
         HashMap<Character, Integer> hm = new HashMap<>();
 
-        for(char p : t.toCharArray()) hm.put(p, hm.getOrDefault(p, 0) + 1);
+        for (char p : t.toCharArray()) hm.put(p, hm.getOrDefault(p, 0) + 1);
 
 
         while (r < s.length()) {
 
             char p = s.charAt(r);
 
-            if(hm.containsKey(p)){
-                hm.put(p,hm.get(p)-1);
+            if (hm.containsKey(p)) {
+                hm.put(p, hm.get(p) - 1);
                 if (hm.get(p) == 0) hm.remove(p);
-               // r++;
+                // r++;
             }
 
-           if(hm.isEmpty()){
-               String res= s.substring(l,r+1);
-               System.out.println(res);
-               l=r;
-           }
-           r++;
+            if (hm.isEmpty()) {
+                String res = s.substring(l, r + 1);
+                System.out.println(res);
+                l = r;
+            }
+            r++;
 
         }
 
@@ -704,18 +700,77 @@ public class SlidingWindow {
 
     }
 
+    public long maximumSubarraySumLC2461(int[] nums, int k) {
+
+        long maxSum = 0;
+        long curSum = 0;
+        int l = 0, r = 0;
+        Set<Integer> hs = new HashSet<>();
+
+        while (r < nums.length) {
+
+            while (hs.contains(nums[r])) {
+
+                hs.remove(nums[l]);
+                curSum = curSum - nums[l];
+                l++;
+
+            }
+            hs.add(nums[r]);
+            curSum = curSum + nums[r];
+            if (r - l + 1 == k) {
+                maxSum = Math.max(maxSum, curSum);
+                hs.remove(nums[l]);
+                curSum = curSum - nums[l];
+                l++;
+            }
+            r++;
+
+        }
+        return maxSum;
+
+    }
+
+    public static boolean isVowel(char p) {
+
+        if (p == 'a' || p == 'e' || p == 'i' || p == 'o' || p == 'u') return true;
+
+        return false;
+    }
+
+
+    public int maxVowelsLC1456(String s, int k) {
+
+        int maxVowel = 0;
+        int count = 0;
+        int l = 0;
+
+        for (int r = 0; r < s.length(); r++) {
+            char c = s.charAt(r);
+            if (isVowel(c)) count++;
+            if (r - l + 1 == k) {
+                maxVowel = Math.max(maxVowel, count);
+                if (isVowel(s.charAt(l))) count--;
+                l++;
+            }
+        }
+        return maxVowel;
+
+    }
+
 
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{1,8,6,2,5,4,8,3,7};
+        int[] ar = new int[]{9, 9, 9, 1, 2, 3};
         int k = 3;
 
-       // System.out.println(kDistinctChar("abcddefg", 3));
-       // System.out.println(LC1358("abcabc"));
+        // System.out.println(kDistinctChar("abcddefg", 3));
+        // System.out.println(LC1358("abcabc"));
 
-       // System.out.println(LC11(ar));
-        System.out.println(minWindow("ADOBECODEBANC","ABC"));
+        // System.out.println(LC11(ar));
+        // System.out.println(minWindow("ADOBECODEBANC", "ABC"));
+
 
     }
 }
