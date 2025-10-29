@@ -100,7 +100,7 @@ public class PrefixSum {
 
     }
 
-    public int pivotIndex(int[] nums) {
+    public int pivotIndexLC724(int[] nums) {
 
         int totalSum = 0;
 
@@ -114,11 +114,54 @@ public class PrefixSum {
 
             leftSum = leftSum + nums[i];
 
+        }
+
+
+        return -1;
+
+    }
+
+    public int findMiddleIndexLC1991(int[] nums) {
+
+        int totalSum = 0;
+
+        for (int p : nums) totalSum = totalSum + p;
+
+        int leftSum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            if (leftSum == totalSum-nums[i]-leftSum) return i;
+
+            leftSum = leftSum + nums[i];
 
         }
 
 
         return -1;
+
+    }
+
+    public int[] leftRightDifferenceLC2574(int[] nums) {
+
+        int totalSum = 0;
+
+        for (int p : nums) totalSum = totalSum + p;
+
+        int leftSum = 0;
+
+        int []res= new int[nums.length];
+
+        for (int i = 0; i < nums.length; i++) {
+
+            int rightSum = totalSum-nums[i]-leftSum;
+
+            res[i]= Math.abs(rightSum-leftSum);
+
+            leftSum = leftSum + nums[i];
+
+        }
+        return res;
 
     }
 
