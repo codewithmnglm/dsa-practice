@@ -793,12 +793,52 @@ public class SlidingWindow {
         return maxLen > 0 ? maxLen : -1;
     }
 
+    public static int maxSubarrayLengthLC2958(int[] nums, int k) {
+
+        int maxLen=0;
+        int r=0;int l=0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        while(r<nums.length){
+            map.put(nums[r], map.getOrDefault(nums[r], 0) + 1);
+            while(map.get(nums[r])>k){
+
+                map.put(nums[l], map.get(nums[l]) - 1);
+                if (map.get(nums[l]) == 0) map.remove(nums[l]);
+                l++;
+            }
+            maxLen= Math.max(maxLen,r-l+1);
+            r++;
+        }
+
+
+        return maxLen;
+    }
+
+    public static int longestSubstringLC395(String s, int k) {
+        if (s.length() < k) return 0;
+
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            if (freq[s.charAt(i) - 'a'] < k) {
+                int left = longestSubstringLC395(s.substring(0, i), k);
+                int right = longestSubstringLC395(s.substring(i + 1), k);
+                return Math.max(left, right);
+            }
+        }
+        return s.length();
+    }
+
 
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{9, 9, 9, 1, 2, 3};
-        int k = 3;
+        int[] ar = new int[]{1,2,3,1,2,3,1,2};
+        int k = 2;
 
         // System.out.println(kDistinctChar("abcddefg", 3));
         // System.out.println(LC1358("abcabc"));
@@ -806,6 +846,9 @@ public class SlidingWindow {
         // System.out.println(LC11(ar));
         // System.out.println(minWindow("ADOBECODEBANC", "ABC"));
 
-        System.out.println(longestKSubstr("aabacbebebe", 3));
+       // System.out.println(longestKSubstr("aabacbebebe", 3));
+       // System.out.println(longestSubstringLC395("bbaaacbd",3));
+
+        System.out.println(maxSubarrayLengthLC2958(ar,k));
     }
 }
