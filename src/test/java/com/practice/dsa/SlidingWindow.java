@@ -837,8 +837,8 @@ public class SlidingWindow {
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{1,2,3,1,2,3,1,2};
-        int k = 2;
+        int[] ar = new int[]{2,3,1,2,4,3};
+        int k = 7;
 
         // System.out.println(kDistinctChar("abcddefg", 3));
         // System.out.println(LC1358("abcabc"));
@@ -849,6 +849,6 @@ public class SlidingWindow {
        // System.out.println(longestKSubstr("aabacbebebe", 3));
        // System.out.println(longestSubstringLC395("bbaaacbd",3));
 
-        System.out.println(maxSubarrayLengthLC2958(ar,k));
+        // System.out.println(minSubArrayLenLC209(k,ar));
     }
 }

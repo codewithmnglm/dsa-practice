@@ -165,11 +165,36 @@ public class PrefixSum {
 
     }
 
+    public static long maximumSubarraySum(int[] nums, int k) {
+
+          int maxSum=0;
+          HashMap<Integer,Integer> map = new HashMap<>();
+
+
+          int [] prefixSum= new int[nums.length+1];
+
+          for(int i=0;i<nums.length;i++){
+
+              prefixSum[i+1]=prefixSum[i]+nums[i];
+              map.put(i+1,prefixSum[i+1]);
+              if(map.containsKey(i-k)){
+                  maxSum= Math.max(maxSum,map.get(i+1)-map.get(i-k));
+              }
+
+          }
+
+
+
+          return maxSum;
+    }
+
     public static void main(String[] args) {
 
-        int[] ar = {10, -10, 20, 30};
+        int[] ar = {1,2,3,4,5,6};
 
-        System.out.println(longestSubarrayWithSumK(ar, 5));
+       // System.out.println(longestSubarrayWithSumK(ar, 5));
+
+        System.out.println(maximumSubarraySum(ar,1));
 
     }
 }
