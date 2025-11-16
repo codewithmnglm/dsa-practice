@@ -110,7 +110,7 @@ public class PrefixSum {
 
         for (int i = 0; i < nums.length; i++) {
 
-            if (leftSum == totalSum-nums[i]-leftSum) return i;
+            if (leftSum == totalSum - nums[i] - leftSum) return i;
 
             leftSum = leftSum + nums[i];
 
@@ -131,7 +131,7 @@ public class PrefixSum {
 
         for (int i = 0; i < nums.length; i++) {
 
-            if (leftSum == totalSum-nums[i]-leftSum) return i;
+            if (leftSum == totalSum - nums[i] - leftSum) return i;
 
             leftSum = leftSum + nums[i];
 
@@ -139,6 +139,28 @@ public class PrefixSum {
 
 
         return -1;
+
+    }
+
+
+    public static int[] productExceptSelfLC238(int[] nums) {
+
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
+
+
+        left[0] = 1;
+        for (int i = 1; i < left.length; i++) left[i] = left[i - 1] * nums[i - 1];
+
+        right[nums.length - 1] = 1;
+        for (int i = right.length - 2; i >= 0; i--) right[i] = right[i + 1] * nums[i + 1];
+
+        for (int i = 0; i < nums.length; i++) nums[i] = left[i] * right[i];
+
+        return nums;
+
+
+
 
     }
 
@@ -150,13 +172,13 @@ public class PrefixSum {
 
         int leftSum = 0;
 
-        int []res= new int[nums.length];
+        int[] res = new int[nums.length];
 
         for (int i = 0; i < nums.length; i++) {
 
-            int rightSum = totalSum-nums[i]-leftSum;
+            int rightSum = totalSum - nums[i] - leftSum;
 
-            res[i]= Math.abs(rightSum-leftSum);
+            res[i] = Math.abs(rightSum - leftSum);
 
             leftSum = leftSum + nums[i];
 
@@ -167,34 +189,35 @@ public class PrefixSum {
 
     public static long maximumSubarraySum(int[] nums, int k) {
 
-          int maxSum=0;
-          HashMap<Integer,Integer> map = new HashMap<>();
+        int maxSum = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
 
 
-          int [] prefixSum= new int[nums.length+1];
+        int[] prefixSum = new int[nums.length + 1];
 
-          for(int i=0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
 
-              prefixSum[i+1]=prefixSum[i]+nums[i];
-              map.put(i+1,prefixSum[i+1]);
-              if(map.containsKey(i-k)){
-                  maxSum= Math.max(maxSum,map.get(i+1)-map.get(i-k));
-              }
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+            map.put(i + 1, prefixSum[i + 1]);
+            if (map.containsKey(i - k)) {
+                maxSum = Math.max(maxSum, map.get(i + 1) - map.get(i - k));
+            }
 
-          }
+        }
 
 
-
-          return maxSum;
+        return maxSum;
     }
 
     public static void main(String[] args) {
 
-        int[] ar = {1,2,3,4,5,6};
+        int[] ar = {2, 3, -1, 8, 4};
 
-       // System.out.println(longestSubarrayWithSumK(ar, 5));
+        // System.out.println(longestSubarrayWithSumK(ar, 5));
 
-        System.out.println(maximumSubarraySum(ar,1));
+        //  System.out.println(maximumSubarraySum(ar,1));
+
+
 
     }
 }
