@@ -164,6 +164,35 @@ public class PrefixSum {
 
     }
 
+    public static boolean checkSubarraySumLC523(int[] nums, int k) {
+
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        int sum=0;
+        map.put(0,-1);
+
+        for(int i=0;i<nums.length;i++){
+
+            sum =sum+nums[i];
+            int rem= sum%k;
+            if (map.containsKey(rem)) {
+                int prevIndex = map.get(rem);
+
+                // Subarray size must be at least 2
+                if (i - prevIndex >= 2) {
+                    return true;
+                }
+
+            } else {
+                // Only store the FIRST occurrence of this remainder
+                map.put(rem, i);
+            }
+
+
+        }
+        return false;
+    }
+
     public int[] leftRightDifferenceLC2574(int[] nums) {
 
         int totalSum = 0;
@@ -211,11 +240,13 @@ public class PrefixSum {
 
     public static void main(String[] args) {
 
-        int[] ar = {2, 3, -1, 8, 4};
+        int[] ar = {5,0,0};
 
         // System.out.println(longestSubarrayWithSumK(ar, 5));
 
         //  System.out.println(maximumSubarraySum(ar,1));
+
+        System.out.println(checkSubarraySumLC523(ar,3));
 
 
 
