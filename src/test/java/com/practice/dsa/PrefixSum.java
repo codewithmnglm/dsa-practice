@@ -1,6 +1,8 @@
 package com.practice.dsa;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PrefixSum {
 
@@ -160,21 +162,19 @@ public class PrefixSum {
         return nums;
 
 
-
-
     }
 
     public static boolean checkSubarraySumLC523(int[] nums, int k) {
 
-        HashMap<Integer,Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-        int sum=0;
-        map.put(0,-1);
+        int sum = 0;
+        map.put(0, -1);
 
-        for(int i=0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
 
-            sum =sum+nums[i];
-            int rem= sum%k;
+            sum = sum + nums[i];
+            int rem = sum % k;
             if (map.containsKey(rem)) {
                 int prevIndex = map.get(rem);
 
@@ -238,16 +238,66 @@ public class PrefixSum {
         return maxSum;
     }
 
+    public static int findMaxLengthLC525(int[] nums) {
+        int max = 0;
+        int sum = 0;
+
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        map.put(0, -1);
+        for (int i = 0; i < nums.length; i++) {
+
+            if (nums[i] == 0) sum = sum - 1;
+            else sum = sum + 1;
+
+            if (map.containsKey(sum)) {
+                int prevIndex = map.get(sum);
+                max = Math.max(max, i - prevIndex);
+
+            } else map.put(sum, i);
+
+        }
+
+
+        return max;
+    }
+
+    public static int longestSubArrayWithSumK(int[] arr, int k) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        int res = 0;
+        int prefSum = 0;
+
+        for (int i = 0; i < arr.length; ++i) {
+            prefSum += arr[i];
+
+
+            if (prefSum == k)
+                res = i + 1;
+
+
+            else if (mp.containsKey(prefSum - k))
+                res = Math.max(res, i - mp.get(prefSum - k));
+
+
+            if (!mp.containsKey(prefSum))
+                mp.put(prefSum, i);
+        }
+
+        return res;
+    }
+
     public static void main(String[] args) {
 
-        int[] ar = {5,0,0};
+        int[] ar = {0, 1};
 
         // System.out.println(longestSubarrayWithSumK(ar, 5));
 
         //  System.out.println(maximumSubarraySum(ar,1));
 
-        System.out.println(checkSubarraySumLC523(ar,3));
+        // System.out.println(checkSubarraySumLC523(ar,3));
 
+        System.out.println(findMaxLengthLC525(ar));
 
 
     }
