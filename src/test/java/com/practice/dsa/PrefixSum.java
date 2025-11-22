@@ -144,7 +144,6 @@ public class PrefixSum {
 
     }
 
-
     public static int[] productExceptSelfLC238(int[] nums) {
 
         int[] left = new int[nums.length];
@@ -286,6 +285,7 @@ public class PrefixSum {
 
         return res;
     }
+
     public static int numSubarraysWithSumLC930(int[] nums, int k) {
 
 
