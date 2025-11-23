@@ -31,6 +31,31 @@ public class PrefixSum {
         return count;
     }
 
+    public static int subarraySum(int[] nums, int k) {
+
+        int res=0;
+        int sum=0;
+
+        HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+        map.put(0,1);
+
+        for(int i=0;i<nums.length;i++){
+
+            sum=sum+nums[i];
+
+            if(map.containsKey(sum-k)){
+
+                res=res+map.get(sum-k);
+            }
+            else map.put(sum, map.getOrDefault(sum, 0) + 1);
+
+
+        }
+
+        return res;
+
+    }
+
     public int numberOfSubarraysLC1248(int[] nums, int k) {
 
         for (int i = 0; i < nums.length; i++) {
@@ -310,11 +335,33 @@ public class PrefixSum {
 
         return count;
     }
+    public static int subarraysDivByK(int[] nums, int k) {
+
+        int max=0;
+        int sum=0;
+
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+
+        for(int i=0;i<nums.length;i++){
+
+            sum=sum+nums[i];
+            int c= ((sum % k) + k) % k;
+
+            if(map.containsKey(c))  max =max+ map.get(c);
+
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+        }
+        return max;
+
+
+    }
 
 
     public static void main(String[] args) {
 
-        int[] ar = {0, 1};
+        int[] ar = {4,5,0,-2,-3,1};
 
         // System.out.println(longestSubarrayWithSumK(ar, 5));
 
@@ -322,7 +369,9 @@ public class PrefixSum {
 
         // System.out.println(checkSubarraySumLC523(ar,3));
 
-        System.out.println(findMaxLengthLC525(ar));
+        //System.out.println(subarraySum(ar,3));
+
+       // System.out.println(subarraysDivByK(ar,5));
 
 
     }
