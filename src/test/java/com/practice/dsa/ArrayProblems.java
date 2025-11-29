@@ -1,5 +1,7 @@
 package com.practice.dsa;
 
+import java.util.Arrays;
+
 public class ArrayProblems {
 
     public static int findlargest(int[] arr, int i) {
@@ -124,47 +126,67 @@ public class ArrayProblems {
         return count > 0 ? count : -1;
 
     }
+
     public void sortColors(int[] nums) {
 
-        int zeroCount=0;
-        int oneCount=0;
-        int twoCount=0;
+        int zeroCount = 0;
+        int oneCount = 0;
+        int twoCount = 0;
 
-        for (int i=0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
 
-            if(nums[i]==0) zeroCount++;
+            if (nums[i] == 0) zeroCount++;
 
-            if(nums[i]==1) oneCount++;
+            if (nums[i] == 1) oneCount++;
 
-            if(nums[i]==2) twoCount++;
+            if (nums[i] == 2) twoCount++;
 
 
         }
 
-        for(int i=0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
 
-            if(zeroCount>0){
+            if (zeroCount > 0) {
 
-                nums[i]=0;
+                nums[i] = 0;
                 zeroCount--;
 
-            }
-            else if(oneCount>0){
+            } else if (oneCount > 0) {
 
-                nums[i]=1;
+                nums[i] = 1;
                 oneCount--;
 
-            }
-            else if(twoCount>0){
+            } else if (twoCount > 0) {
 
-                nums[i]=2;
+                nums[i] = 2;
                 twoCount--;
 
             }
 
 
-
         }
+
+    }
+
+    public static int[] maxSubsequenceLC2099(int[] nums, int k) {
+
+        int[] res = new int[k];
+
+        int[][] valueWithIndex = new int[nums.length][2];
+
+        for (int i = 0; i < nums.length; i++) valueWithIndex[i] = new int[]{nums[i], i};
+
+        Arrays.sort(valueWithIndex, (a, b) -> b[0] - a[0]);
+
+        Arrays.sort(valueWithIndex, 0, k, (a, b) -> a[1] - b[1]);
+
+
+        for (int i = 0; i < k; i++) {
+            res[i] = valueWithIndex[i][0];
+        }
+
+
+        return res;
 
     }
 
