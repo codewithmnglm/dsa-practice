@@ -335,7 +335,7 @@ public class PrefixSum {
 
         return count;
     }
-    public static int subarraysDivByK(int[] nums, int k) {
+    public static int subarraysDivByKLC(int[] nums, int k) {
 
         int max=0;
         int sum=0;
@@ -357,11 +357,32 @@ public class PrefixSum {
 
 
     }
+    public static int minSubArrayLenLC209(int k, int[] nums) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int minSum = Integer.MAX_VALUE;
+
+        map.put(0, -1);
+        int sum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            sum = sum + nums[i];
+
+            if(map.containsKey(sum-k)) minSum= Math.min(minSum,i-map.get(sum-k));
+
+            map.put(sum, i);
+
+
+        }
+        return minSum==Integer.MAX_VALUE?0:minSum;
+
+    }
 
 
     public static void main(String[] args) {
 
-        int[] ar = {4,5,0,-2,-3,1};
+        int[] ar = {1,2,3,4,5};
 
         // System.out.println(longestSubarrayWithSumK(ar, 5));
 
@@ -372,6 +393,8 @@ public class PrefixSum {
         //System.out.println(subarraySum(ar,3));
 
        // System.out.println(subarraysDivByK(ar,5));
+
+        System.out.println(minSubArrayLenLC209(11,ar));
 
 
     }
