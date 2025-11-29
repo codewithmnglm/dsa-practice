@@ -97,8 +97,8 @@ public class Queues {
         PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
                 (a, b) ->
                         b.getValue().equals(a.getValue()) ?
-                        a.getKey().compareTo(b.getKey()) :
-                        b.getValue().compareTo(a.getValue())
+                                a.getKey().compareTo(b.getKey()) :
+                                b.getValue().compareTo(a.getValue())
         );
         pq.addAll(map.entrySet());
 
@@ -121,36 +121,97 @@ public class Queues {
 
     public static String frequencySortLC451(String s) {
 
-        HashMap<Character,Integer> map = new HashMap<>();
+        HashMap<Character, Integer> map = new HashMap<>();
 
-        for(char c: s.toCharArray()) map.put(c,map.getOrDefault(c,0)+1);
+        for (char c : s.toCharArray()) map.put(c, map.getOrDefault(c, 0) + 1);
 
-        PriorityQueue<Map.Entry<Character,Integer>> pq= new PriorityQueue<>((a,b)->
-            b.getValue()-a.getValue()
+        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>((a, b) ->
+                b.getValue() - a.getValue()
         );
 
         pq.addAll(map.entrySet());
         StringBuilder res = new StringBuilder();
 
-        while(!pq.isEmpty()){
+        while (!pq.isEmpty()) {
 
-            Map.Entry<Character,Integer> entrySet= pq.poll();
+            Map.Entry<Character, Integer> entrySet = pq.poll();
 
 
-            for(int i=0;i<entrySet.getValue();i++){
+            for (int i = 0; i < entrySet.getValue(); i++) {
                 res.append(entrySet.getKey());
             }
 
         }
 
-          return res.toString();
+        return res.toString();
 
+    }
+
+    public static int[] frequencySortLC1626(int[] nums) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i : nums) map.put(i, map.getOrDefault(i, 0) + 1);
+
+        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>((a, b) ->
+                a.getValue().equals(b.getValue()) ? b.getKey() - a.getKey() : a.getValue() - b.getValue()
+        );
+        pq.addAll(map.entrySet());
+        int[] res = new int[nums.length];
+        int k = 0;
+        while (!pq.isEmpty()) {
+
+            System.out.println(pq.peek());
+            Map.Entry<Integer, Integer> entrySet = pq.poll();
+
+            for (int i = k; i < k + entrySet.getValue(); i++) {
+
+                res[i] = entrySet.getKey();
+
+            }
+            k = k + entrySet.getValue();
+        }
+
+        return res;
+    }
+
+    public static int[] frequencySortUsingList(int[] nums) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i : nums) map.put(i, map.getOrDefault(i, 0) + 1);
+        int[] res = new int[nums.length];
+
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
+
+        Collections.sort(list, (a, b) -> {
+
+            int diff = a.getValue() - b.getValue();
+            return diff == 0 ? b.getKey() - a.getKey() : diff;
+
+        });
+        int k = 0;
+        for (int i = 0; i < list.size(); i++) {
+            Map.Entry<Integer, Integer> entrySet = list.get(i);
+
+
+            for (int j = k; j < k + entrySet.getValue(); j++) {
+
+                res[j] = entrySet.getKey();
+
+            }
+            k = k + entrySet.getValue();
+
+
+        }
+
+        return res;
     }
 
 
     public static void main(String[] args) {
 
-        int ar[] = {5, 2, 2};
+        int ar[] = {1, 1, 2, 2, 2, 3};
 
         // System.out.println(Arrays.toString(findRelativeRanksLC506(ar)));
 
@@ -161,7 +222,9 @@ public class Queues {
 
         //System.out.println(topKFrequent(str, 3));
 
-        System.out.println(frequencySortLC451("tree"));
+        // System.out.println(frequencySortLC451("tree"));
+
+        System.out.println(Arrays.toString(frequencySortUsingList(ar)));
 
     }
 }
