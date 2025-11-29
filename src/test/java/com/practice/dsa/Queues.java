@@ -67,6 +67,20 @@ public class Queues {
         return null;
     }
 
+    public static int thirdMaxLC414(int[] nums) {
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(!pq.contains(nums[i]))
+                pq.add(nums[i]);
+
+            if(pq.size()>3)
+                pq.poll();
+        }
+        if(pq.size() == 2) pq.poll();
+        return pq.peek();
+    }
+
 
 
 
@@ -74,12 +88,13 @@ public class Queues {
 
     public static void main(String[] args) {
 
-        int ar[]={1,2,1,2,1,2,3,1,3,2};
+        int ar[]={5,2,2};
 
        // System.out.println(Arrays.toString(findRelativeRanksLC506(ar)));
 
-        int []res= topKFrequentLC347(ar,2);
-        for(int i:res) System.out.println(i);
+       // int []res= topKFrequentLC347(ar,2);
+       // for(int i:res) System.out.println(i);
+        System.out.println(thirdMaxLC414(ar));
 
     }
 }
