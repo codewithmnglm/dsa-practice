@@ -1,7 +1,9 @@
 package com.practice.dsa;
 
+import java.awt.*;
 import java.sql.Connection;
 import java.util.*;
+import java.util.List;
 
 public class Queues {
 
@@ -208,6 +210,59 @@ public class Queues {
         return res;
     }
 
+    public static String findCommonResponseLC3527(List<List<String>> responses) {
+
+        HashMap<String, Integer> map = new HashMap<>();
+        Set<String> set = new HashSet<>();
+
+        for (int i = 0; i < responses.size(); i++) {
+            for (int j = 0; j < responses.get(i).size(); j++) {
+                String s = responses.get(i).get(j);
+                if (set.add(s)) map.put(s, map.getOrDefault(s, 0) + 1);
+            }
+            set.clear();
+
+        }
+
+        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
+                (a, b) ->
+                        a.getValue().equals(b.getValue()) ?
+                                a.getKey().compareTo(b.getKey()) :
+                                b.getValue() - a.getValue()
+        );
+
+        pq.addAll(map.entrySet());
+        return pq.poll().getKey();
+
+
+    }
+
+    public int[] kWeakestRowsLC1337(int[][] mat, int k) {
+
+        int rowCount = mat.length;
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+
+        for (int i = 0; i < rowCount; i++) {
+            int count = 0;
+            for (int j = 0; j < mat[i].length; j++) {
+                if (mat[i][j] == 1) count++;
+            }
+            map.put(i, count);
+        }
+
+        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(
+                (a, b) ->
+                        a.getValue().equals(b.getValue()) ?
+                                a.getKey() - b.getKey() : a.getValue() - b.getValue()
+        );
+        pq.addAll(map.entrySet());
+        int[] res = new int[k];
+        for(int i=0;i<k;i++) res[i]= pq.poll().getKey();
+        return res;
+    }
+
 
     public static void main(String[] args) {
 
@@ -218,13 +273,24 @@ public class Queues {
         // int []res= topKFrequentLC347(ar,2);
         // for(int i:res) System.out.println(i);
         //System.out.println(thirdMaxLC414(ar));
-        String[] str = {"i", "love", "leetcode", "i", "love", "coding"};
+        List<List<String>> input = List.of(
+                List.of("good", "ok", "good", "ok"),
+                List.of("ok", "bad", "good", "ok", "ok"),
+                List.of("good"),
+                List.of("bad")
+        );
+
+        String s = "";
+
+
+        // System.out.println(findCommonResponseLC3527(input));
 
         //System.out.println(topKFrequent(str, 3));
 
         // System.out.println(frequencySortLC451("tree"));
 
-        System.out.println(Arrays.toString(frequencySortUsingList(ar)));
+        // System.out.println(Arrays.toString(frequencySortUsingList(ar)));
+
 
     }
 }
