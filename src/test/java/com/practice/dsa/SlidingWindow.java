@@ -773,8 +773,8 @@ public class SlidingWindow {
 
                 char m = s.charAt(l);
 
-                    map.put(m, map.get(m) - 1);
-                    l++;
+                map.put(m, map.get(m) - 1);
+                l++;
 
 
                 if (map.get(m) == 0) map.remove(m);
@@ -795,19 +795,20 @@ public class SlidingWindow {
 
     public static int maxSubarrayLengthLC2958(int[] nums, int k) {
 
-        int maxLen=0;
-        int r=0;int l=0;
-        HashMap<Integer,Integer> map = new HashMap<>();
+        int maxLen = 0;
+        int r = 0;
+        int l = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-        while(r<nums.length){
+        while (r < nums.length) {
             map.put(nums[r], map.getOrDefault(nums[r], 0) + 1);
-            while(map.get(nums[r])>k){
+            while (map.get(nums[r]) > k) {
 
                 map.put(nums[l], map.get(nums[l]) - 1);
                 if (map.get(nums[l]) == 0) map.remove(nums[l]);
                 l++;
             }
-            maxLen= Math.max(maxLen,r-l+1);
+            maxLen = Math.max(maxLen, r - l + 1);
             r++;
         }
 
@@ -833,11 +834,67 @@ public class SlidingWindow {
         return s.length();
     }
 
+    public int longestKSubstr1(String s, int k) {
+
+        HashMap<Character, Integer> hm = new HashMap<>();
+
+        int maxLen = 0;
+        int j = 0;
+        int r = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+
+
+            while (hm.size() > k) {
+                char c = s.charAt(j);
+                hm.put(c, hm.get(c) - 1);
+                if (hm.get(c) == 0) hm.remove(c);
+                j++;
+            }
+            char p = s.charAt(i);
+            hm.put(p, hm.getOrDefault(p, 0) + 1);
+
+
+            if (hm.size() == k) {
+                maxLen = Math.max(maxLen, i - j + 1);
+            }
+
+
+        }
+
+
+        return maxLen == 0 ? -1 : maxLen;
+
+    }
+
+    public int longestSubstringWithDistinctCharacters(String s) {
+
+
+        int l = 0;
+        int maxlen = 0;
+
+        HashSet<Character> hs = new HashSet<>();
+
+        for (int i = 0; i < s.length(); i++) {
+
+            while (hs.contains(s.charAt(i))) {
+                hs.remove(s.charAt(l++));
+
+            }
+            hs.add(s.charAt(i));
+            maxlen = Math.max(maxlen, i - l + 1);
+
+
+        }
+        return maxlen;
+
+    }
+
 
     public static void main(String[] args) {
 
 
-        int[] ar = new int[]{2,3,1,2,4,3};
+        int[] ar = new int[]{2, 3, 1, 2, 4, 3};
         int k = 7;
 
         // System.out.println(kDistinctChar("abcddefg", 3));
@@ -846,8 +903,8 @@ public class SlidingWindow {
         // System.out.println(LC11(ar));
         // System.out.println(minWindow("ADOBECODEBANC", "ABC"));
 
-       // System.out.println(longestKSubstr("aabacbebebe", 3));
-       // System.out.println(longestSubstringLC395("bbaaacbd",3));
+        // System.out.println(longestKSubstr("aabacbebebe", 3));
+        // System.out.println(longestSubstringLC395("bbaaacbd",3));
 
         // System.out.println(minSubArrayLenLC209(k,ar));
     }
