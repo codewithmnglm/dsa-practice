@@ -80,7 +80,29 @@ public class Greedy {
         return true;
 
     }
+    public int jump2LC45(int[] nums) { // re do it once again.
 
+        int far=0;
+        int cur=0;
+        int jump=0;
+
+
+        for(int i=0;i<nums.length-1;i++){
+
+            far = Math.max(far,i+nums[i]);
+
+            if(i==cur){
+                jump++;
+                cur=far;
+                if(far>=nums.length-1) return jump;
+
+            }
+
+
+        }
+        return jump;
+
+    }
 
     public static void main(String[] args) {
 
