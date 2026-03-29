@@ -254,6 +254,15 @@ public class Recursion {
 
 
     }
+    public static int subSetKLC494(int i, int[] nums, int target,int sum) {
+
+
+        if (i == nums.length) return sum==target?1:0;
+        int left = subSetKLC494(i + 1, nums,target ,sum-nums[i]);
+        int right = subSetKLC494(i + 1, nums,target,sum+nums[i]);
+        return left + right;
+
+    }
 
     public static int ninjaTraining(int n, int points[][]) {
 
