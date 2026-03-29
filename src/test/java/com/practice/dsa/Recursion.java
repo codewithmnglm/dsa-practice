@@ -666,6 +666,76 @@ public class Recursion {
 
     }
 
+    public static void reverseArray(int[] nums, int i, int j ){
+
+       if(i>=j) {
+           System.out.println(Arrays.toString(nums));
+           return;
+       }
+       int temp = nums[i];
+       nums[i] = nums[j];
+       nums[j] = temp;
+
+       reverseArray(nums,i+1,j-1);
+
+
+
+    }
+    public static void reverseArray2(int[] nums, int i, int j) {
+
+        if (i >= j) {
+            System.out.println(Arrays.toString(nums));
+            return;
+        }
+
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+
+        reverseArray(nums, i + 1, j - 1);
+    }
+
+    public static void subsequence(int i,List<Integer> li,int []nums) {
+
+
+        if (i == nums.length) {
+        if (li.isEmpty()) System.out.println("{}");
+        else {
+            for (int j : li) System.out.print(j + ",");
+            System.out.println();
+        }
+        return ;
+    }
+
+        li.add(nums[i]);
+        subsequence(i+1, li,nums);
+        li.remove(li.size()-1);
+        subsequence(i+1, li,nums);
+
+    }
+
+    public static int findSum(int i ,int []nums,int target,List<Integer> li){
+
+
+        if (i == nums.length) {
+            if (li.isEmpty()) return 0;
+
+            Collections.sort(li);
+            int sum = li.get(0) + li.get(li.size() - 1);
+
+            return sum <= target ? 1 : 0;
+        }
+
+        li.add(nums[i]);
+        int a = findSum(i+1,nums,target,li);
+        li.remove(li.size()-1);
+        int b = findSum(i+1,nums,target,li);
+
+        return a+b;
+
+    }
+
+
 
     public static void main(String[] args) {
 
@@ -699,7 +769,13 @@ public class Recursion {
 
         int[] ar2 = new int[]{48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 73, 48, 48, 73, 48, 48, 48, 73, 48, 48, 48, 73, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48};
 
-        System.out.println(maxDistance(ar2));
+       // System.out.println(maxDistance(ar2));
+        int [] ar1 ={7,10,7,3,7,5,4};
+        List<Integer> li = new ArrayList<>();
+
+        //subsequence(0,li,ar1);
+
+        System.out.println(findSum(0,ar1,12,li));
 
 
     }
